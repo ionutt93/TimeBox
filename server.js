@@ -11,7 +11,8 @@ var methodOverride = require('method-override');
 var db = require('./config/db');
 var port = process.env.PORT || 3000; // set our port
 // Models
-var User = db.models.user;
+var User = require('./models/user');
+
 
 // Connect to database
 if ('development' == app.get('env'))
