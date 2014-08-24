@@ -1,0 +1,21 @@
+#timer-btn {
+	width: 130px;
+	height: 130px;
+	border-radius: 130px;
+
+	position: absolute;
+	left: 100px;
+	top: 85px;
+}
+
+.time-chart {
+	width: 300px;
+	height: 300px;
+}
+
+#play {
+	padding-top: 30px;
+	font-size: 60px;
+	font-weight: 400;
+	color: #ff1d00;
+}

@@ -1,6 +1,6 @@
 'use strict'
 angular.module("TimerCtrl", []).controller("TimerController", function ($scope, $timeout) {
-    var session = 25 * 60;
+    var session = 25;
     var interval;
     var activeState = "Stopped";
     
@@ -41,6 +41,12 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	} else if ($scope.action == "Pause") {
     		$scope.stopTimer();
     	}
+    };
+
+    $scope.isActive = function (state) {
+    	if (activeState == state)
+    		return true;
+    	return false;
     };
 
     $scope.startTimer = function () {

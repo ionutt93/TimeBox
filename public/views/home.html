@@ -1,7 +1,10 @@
 <div class="col-md-4 center">
 	<div class="time-chart">
 		<canvas id='time-rep' height='300px'></canvas>
-		<div id="start-btn" class="btn btn-default" ng-mousedown="mouseEventStart()" ng-mouseup="mouseEventStop()">{{ action }}</div>
+		<div id="timer-btn" class="btn btn-default" ng-mousedown="mouseEventStart()" ng-mouseup="mouseEventStop()"><i id='play' class="fa" ng-class="{
+		'fa-play': isActive('Pause') || isActive('Stopped'),
+		'fa-pause': isActive('Running')
+		}"></i></div>
 	</div>
 	<div class="timer"></div>
 	<div class="pomodoro-region"></div>
