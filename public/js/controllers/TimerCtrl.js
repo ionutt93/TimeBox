@@ -1,26 +1,36 @@
 'use strict'
 angular.module("TimerCtrl", []).controller("TimerController", function ($scope, $timeout) {
-    var session = 25;
+    var workSession = 25;
+    var breakSession = 5;
     var interval;
     var activeState = "Stopped";
     
     $scope.active = false;
-    $scope.remainingTime = session;
+    $scope.remainingTime = workSession;
    	$scope.workTime = 0;
+   	$scope.breakTime = 0;
+   	$scope.remainingBreakTime = breakSession;
    	$scope.action = "Start";
    	// Chart init data
 	var ctx = document.getElementById("time-rep").getContext("2d");
    	var chartData = [{
    		value: $scope.workTime,
    		color: "#ff1d00",
-   		highlight: "#ff1d00",
    		label: "Done"		
    	}, {
    		value: $scope.remainingTime,
    		color: "#e8e8e8",
-   		highlight: "#e8e8e8",
    		label: "Remaining"
+   	}, {
+   		value: 0,
+   		color: "#9ec1d6",
+   		label: 'Break'
+    }, {
+   		value: breakSession,
+   		color: "#bee8ff",
+   		label: "Remainin Break"
    	}];
+
     var timeChart = new Chart(ctx).Doughnut(chartData, {
     	percentageInnerCutout : 45,
     	animationEasing: "easeOutQuart"
@@ -43,15 +53,17 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	}
     };
 
+    // Checks if the given state is active
     $scope.isActive = function (state) {
     	if (activeState == state)
     		return true;
     	return false;
     };
 
+    // Starts timer
     $scope.startTimer = function () {
     	if (activeState == "Stopped") {
-    		$scope.remainingTime = session;
+    		$scope.remainingTime = workSession;
 	   		$scope.workTime = 0;
     	}
     	
@@ -60,8 +72,9 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		$timeout($scope.tick, 1000);
     };
 
+    // Stops timer
     $scope.stopTimer = function () {
-    	$scope.remainingTime = session;
+    	$scope.remainingTime = workSession;
    		$scope.workTime = 0;
    		$scope.action = "Start";
    		activeState = "Stopped";
@@ -72,6 +85,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 		timeChart.update();
     };
 
+    // Pause timer
     $scope.pauseTimer = function () {
     	if (activeState == "Running") {
 			$scope.action = "Start";
@@ -79,10 +93,25 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	}
     };
 
+    // Updates timer
    	$scope.tick = function () {
-   		if ($scope.remainingTime == 0) {
+   		if ($scope.isBreak == true && $scope.remainingBreakTime != 0) {
+   			$scope.breakTime++;
+   			$scope.remainingBreakTime--;
+
+   			timeChart.segments[2].value = $scope.breakTime;
+   			timeChart.segments[3].value = $scope.remainingBreakTime;
+
+   			timeChart.update();
+   			console.log("break tick");
+   			$timeout($scope.tick, 1000);
+
+   		} else if ($scope.remainingTime == 0) {
    			console.log("Timer finished/paused");
-   			activeState = "Stopped";
+   			activeState = "Break time";
+   			$scope.isBreak = true;
+   			$scope.tick();
+
    		} else if (activeState == "Running") {
 	   		$scope.workTime++;
 	   		$scope.remainingTime--;
@@ -95,6 +124,10 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 			console.log("Tick");
 			$timeout($scope.tick, 1000);	
    		}
+   	};
+
+   	$scope.breakTick = function () {
+
    	};
 
    	// Mouse click and mouse hold
@@ -114,6 +147,4 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    			$scope.btnHold();
    		}
    	};
-
-
 });

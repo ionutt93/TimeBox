@@ -1,10 +1,15 @@
 <div class="col-md-4 center">
 	<div class="time-chart">
 		<canvas id='time-rep' height='300px'></canvas>
-		<div id="timer-btn" class="btn btn-default" ng-mousedown="mouseEventStart()" ng-mouseup="mouseEventStop()"><i id='play' class="fa" ng-class="{
-		'fa-play': isActive('Pause') || isActive('Stopped'),
-		'fa-pause': isActive('Running')
-		}"></i></div>
+		<div id="timer-btn" class="btn btn-default" 
+			ng-mousedown="mouseEventStart()" 
+			ng-mouseup="mouseEventStop()">
+			<i id='play' class="fa" ng-class="{
+			'fa-play': isActive('Pause') || isActive('Stopped'),
+			'fa-pause': isActive('Running')
+			}"></i>
+			<h4>{{remainingTime * 1000 | date : "mm:ss"}}</h4>
+		</div>
 	</div>
 	<div class="timer"></div>
 	<div class="pomodoro-region"></div>
