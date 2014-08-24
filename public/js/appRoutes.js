@@ -3,7 +3,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
     // home page
     $routeProvider.when('/', {
         templateUrl: 'views/home.html',
-        controller: 'MainController'
+        controller: 'TimerController'
     });
 
     // nerds page

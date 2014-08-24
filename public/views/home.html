@@ -1,5 +1,8 @@
-<div class="jumbotron text-center">
-	<h1>Home Page 4 Life</h1>
-
-	<p>{{ tagline }}</p>
+<div class="col-md-4 center">
+	<div class="time-chart">
+		<canvas id='time-rep' height='300px'></canvas>
+		<div id="start-btn" class="btn btn-default" ng-mousedown="mouseEventStart()" ng-mouseup="mouseEventStop()">{{ action }}</div>
+	</div>
+	<div class="timer"></div>
+	<div class="pomodoro-region"></div>
 </div>
