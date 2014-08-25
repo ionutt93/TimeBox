@@ -1,35 +1,32 @@
 'use strict'
 angular.module("TimerCtrl", []).controller("TimerController", function ($scope, $timeout) {
-    var workSession = 25;
-    var breakSession = 5;
+    $scope.workSession = 25;
+    $scope.breakSession = 5;
+
     var interval;
     var activeState = "Stopped";
     
     $scope.active = false;
-    $scope.remainingTime = workSession;
+    $scope.remainingTime = $scope.workSession;
    	$scope.workTime = 0;
    	$scope.breakTime = 0;
-   	$scope.remainingBreakTime = breakSession;
+   	$scope.remainingBreakTime = $scope.breakSession;
    	$scope.action = "Start";
    	
    	// Chart init data
 	var ctx = document.getElementById("time-rep").getContext("2d");
    	var chartData = [{
    		value: $scope.workTime,
-   		color: "#ff1d00",
-   		label: "Done"		
+   		color: "#ff1d00"
    	}, {
    		value: $scope.remainingTime,
-   		color: "#e8e8e8",
-   		label: "Remaining"
+   		color: "#e8e8e8"
    	}, {
-   		value: 0,
-   		color: "#9ec1d6",
-   		label: 'Break'
+   		value: $scope.breakTime,
+   		color: "#bee8ff"
     }, {
-   		value: breakSession,
-   		color: "#bee8ff",
-   		label: "Remainin Break"
+   		value: $scope.breakSession,
+   		color: "#9ec1d6"
    	}];
 
     var timeChart = new Chart(ctx).Doughnut(chartData, {
@@ -61,11 +58,26 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	return false;
     };
 
+    // Updates chart
+    $scope.updateChart = function () {
+    	$scope.remainingTime = parseInt($scope.workSession);
+   		$scope.workTime = 0;
+
+   		$scope.remainingBreakTime = parseInt($scope.breakSession);
+   		$scope.breakTime = 0;
+
+   		timeChart.segments[0].value = $scope.workTime;
+		timeChart.segments[1].value = $scope.remainingTime;
+		timeChart.segments[2].value = $scope.breakTime;
+		timeChart.segments[3].value = $scope.remainingBreakTime;
+
+		timeChart.update();	
+    };
+
     // Starts timer
     $scope.startTimer = function () {
     	if (activeState == "Stopped") {
-    		$scope.remainingTime = workSession;
-	   		$scope.workTime = 0;
+    		$scope.updateChart();
     	}
     	
     	$scope.action = "Pause";
@@ -78,22 +90,14 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     // Stops timer
     $scope.stopTimer = function () {
-    	$scope.remainingTime = workSession;
-   		$scope.workTime = 0;
-
-   		$scope.remainingBreakTime = breakSession;
-   		$scope.breakTime = 0;
+    	console.log($scope.workSession);
+    	console.log($scope.breakSession);
 
    		$scope.action = "Start";
    		activeState = "Stopped";
    		$scope.isBreak = false;
 
-   		timeChart.segments[0].value = $scope.workTime;
-		timeChart.segments[1].value = $scope.remainingTime;
-		timeChart.segments[2].value = $scope.breakTime;
-		timeChart.segments[3].value = $scope.remainingBreakTime;
-
-		timeChart.update();
+   		$scope.updateChart();
     };
 
     // Pause timer
