@@ -11,6 +11,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    	$scope.breakTime = 0;
    	$scope.remainingBreakTime = breakSession;
    	$scope.action = "Start";
+   	
    	// Chart init data
 	var ctx = document.getElementById("time-rep").getContext("2d");
    	var chartData = [{
@@ -69,18 +70,28 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	
     	$scope.action = "Pause";
     	activeState = "Running";
-   		$timeout($scope.tick, 1000);
+    	if ($scope.isBreak == true)
+    		$timeout($scope.breakTick, 1000);
+    	else
+   			$timeout($scope.tick, 1000);
     };
 
     // Stops timer
     $scope.stopTimer = function () {
     	$scope.remainingTime = workSession;
    		$scope.workTime = 0;
+
+   		$scope.remainingBreakTime = breakSession;
+   		$scope.breakTime = 0;
+
    		$scope.action = "Start";
    		activeState = "Stopped";
+   		$scope.isBreak = false;
 
    		timeChart.segments[0].value = $scope.workTime;
 		timeChart.segments[1].value = $scope.remainingTime;
+		timeChart.segments[2].value = $scope.breakTime;
+		timeChart.segments[3].value = $scope.remainingBreakTime;
 
 		timeChart.update();
     };
@@ -93,24 +104,12 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	}
     };
 
-    // Updates timer
+    // Updates work time
    	$scope.tick = function () {
-   		if ($scope.isBreak == true && $scope.remainingBreakTime != 0) {
-   			$scope.breakTime++;
-   			$scope.remainingBreakTime--;
-
-   			timeChart.segments[2].value = $scope.breakTime;
-   			timeChart.segments[3].value = $scope.remainingBreakTime;
-
-   			timeChart.update();
-   			console.log("break tick");
-   			$timeout($scope.tick, 1000);
-
-   		} else if ($scope.remainingTime == 0) {
-   			console.log("Timer finished/paused");
-   			activeState = "Break time";
+   		if ($scope.remainingTime == 0) {
+   			console.log("Work time finished");
    			$scope.isBreak = true;
-   			$scope.tick();
+   			$scope.breakTick();
 
    		} else if (activeState == "Running") {
 	   		$scope.workTime++;
@@ -126,8 +125,22 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		}
    	};
 
+   	// Updates break time
    	$scope.breakTick = function () {
+   		if ($scope.remainingBreakTime != 0 && activeState == "Running") {
+   			$scope.breakTime++;
+			$scope.remainingBreakTime--;
 
+			timeChart.segments[2].value = $scope.breakTime;
+			timeChart.segments[3].value = $scope.remainingBreakTime;
+
+			timeChart.update();
+			console.log("break tick");
+			$timeout($scope.breakTick, 1000);	
+   		} else if ($scope.remainingBreakTime == 0) {
+   			$scope.stopTimer();
+   			console.log('Pomodoro finished');
+   		}
    	};
 
    	// Mouse click and mouse hold
