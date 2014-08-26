@@ -1,7 +1,10 @@
 'use strict'
 angular.module("TimerCtrl", []).controller("TimerController", function ($scope, $timeout) {
     $scope.workSession = 25;
-    $scope.breakSession = 5;
+    $scope.smallBreakSession = 5;
+    $scope.bigBreakSession = 15;
+    $scope.pomodoros = 1;
+    $scope.bigBreakFreq = 4;
 
     var interval;
     var activeState = "Stopped";
@@ -10,7 +13,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     $scope.remainingTime = $scope.workSession;
    	$scope.workTime = 0;
    	$scope.breakTime = 0;
-   	$scope.remainingBreakTime = $scope.breakSession;
+   	$scope.remainingBreakTime = $scope.smallBreakSession;
    	$scope.action = "Start";
    	
    	// Chart init data
@@ -25,7 +28,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		value: $scope.breakTime,
    		color: "#bee8ff"
     }, {
-   		value: $scope.breakSession,
+   		value: $scope.smallBreakSession,
    		color: "#9ec1d6"
    	}];
 
@@ -62,9 +65,12 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     $scope.updateChart = function () {
     	$scope.remainingTime = parseInt($scope.workSession);
    		$scope.workTime = 0;
-
-   		$scope.remainingBreakTime = parseInt($scope.breakSession);
    		$scope.breakTime = 0;
+
+   		if ($scope.pomodoros != 0 && $scope.pomodoros % $scope.bigBreakFreq == 0)
+   			$scope.remainingBreakTime = parseInt($scope.bigBreakSession);	
+   		else
+   			$scope.remainingBreakTime = parseInt($scope.smallBreakSession);	
 
    		timeChart.segments[0].value = $scope.workTime;
 		timeChart.segments[1].value = $scope.remainingTime;
@@ -90,9 +96,6 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     // Stops timer
     $scope.stopTimer = function () {
-    	console.log($scope.workSession);
-    	console.log($scope.breakSession);
-
    		$scope.action = "Start";
    		activeState = "Stopped";
    		$scope.isBreak = false;
@@ -113,6 +116,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		if ($scope.remainingTime == 0) {
    			console.log("Work time finished");
    			$scope.isBreak = true;
+   			$scope.pomodoros++;
    			$scope.breakTick();
 
    		} else if (activeState == "Running") {
@@ -147,7 +151,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		}
    	};
 
-   	// Mouse click and mouse hold
+   	// Decides between click and hold events
    	$scope.mouseEventStart = function () {
    		$scope.startTime = Date.now();
    	};

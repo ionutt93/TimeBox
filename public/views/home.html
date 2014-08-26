@@ -5,21 +5,23 @@
 			ng-mousedown="mouseEventStart()" 
 			ng-mouseup="mouseEventStop()">
 			<i id='play' class="fa" ng-class="{
-			'fa-play': isActive('Pause') || isActive('Stopped'),
-			'fa-pause': isActive('Running')
+				'fa-play': isActive('Pause') || isActive('Stopped'),
+				'fa-pause': isActive('Running')
 			}"></i>
 			<h4 ng-hide="isBreak">{{remainingTime * 1000 | date : "mm:ss"}}</h4>
 			<h4 ng-show="isBreak">{{remainingBreakTime * 1000 | date : "mm:ss"}}</h4>
 		</div>
 	</div>
 	<div class="timer-options">
-		<h5>Work time | {{workSession}} min</h5>
+		<h4>Work time | {{workSession | number:0}} min</h4>
 		<slider floor="10" ceiling="60" step="5" precision="2"
-			ng-model="workSession"
-			ng-change="stopTimer()"></slider>
-		<h5>Small break time | {{breakSession}} min</h5>
-		<slider class="break-slider" floor="0" ceiling="60" step="5" precision="2"
-			ng-model="breakSession"
-			ng-change="stopTimer()"></slider>
+			ng-model="workSession"></slider>
+		<h4>Small break time | {{smallBreakSession | number:0}} min</h4>
+		<slider floor="0" ceiling="60" step="5" precision="2"
+			ng-model="smallBreakSession"></slider>
+		<h4>Big break time | {{bigBreakSession | number:0}} min</h4>
+		<slider floor="0" ceiling="90" step="5" precision="2"
+			ng-model="bigBreakSession"></slider>
+		<p>{{pomodoros}}</p>
 	</div>
 </div>
