@@ -3,19 +3,19 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
     // home page
     $routeProvider.when('/', {
         templateUrl: 'views/home.html',
-        controller: 'TimerController'
+        // controller: 'TimerController'
     });
 
     // nerds page
     $routeProvider.when('/nerds', {
         templateUrl: 'views/nerd.html',
-        controller: 'NerdController'
+        // controller: 'NerdController'
     });
 
     // geeks page
     $routeProvider.when('/geeks', {
         templateUrl: 'views/geek.html',
-        controller: 'GeekController'
+        // controller: 'GeekController'
     });
 
     $locationProvider.html5Mode(true);

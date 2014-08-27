@@ -8,7 +8,9 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     var interval;
     var activeState = "Stopped";
-    
+    var pomodoroFinishedSound = new Audio('audio/pomodoro-finished.mp3');
+    var breakFinishedSound = new Audio('audio/break-finished.mp3');
+
     $scope.active = false;
     $scope.remainingTime = $scope.workSession;
    	$scope.workTime = 0;
@@ -37,6 +39,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	animationEasing: "easeOutQuart"
     });
 
+    // Actions if button was clicked
     $scope.btnClick = function () {
     	if ($scope.action == "Start") {
     		$scope.startTimer();
@@ -46,6 +49,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     	}
     };
 
+    // Actions if button was hold
     $scope.btnHold = function () {
     	if ($scope.action == "Start") {
     		$scope.startTimer();
@@ -117,6 +121,8 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    			console.log("Work time finished");
    			$scope.isBreak = true;
    			$scope.pomodoros++;
+
+   			pomodoroFinishedSound.play();
    			$scope.breakTick();
 
    		} else if (activeState == "Running") {
@@ -147,6 +153,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 			$timeout($scope.breakTick, 1000);	
    		} else if ($scope.remainingBreakTime == 0) {
    			$scope.stopTimer();
+   			breakFinishedSound.play();
    			console.log('Pomodoro finished');
    		}
    	};

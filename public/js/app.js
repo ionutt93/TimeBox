@@ -1,4 +1,4 @@
 angular.module('sampleApp', 
 	['ngRoute', 'appRoutes', 'MainCtrl', 
-	 'NerdCtrl', 'NerdService', 'TimerCtrl', 
+	 'ProjectCtrl', 'NerdService', 'TimerCtrl', 
 	 'GeekService', 'ui.slider']);

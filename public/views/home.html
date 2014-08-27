@@ -1,4 +1,5 @@
-<div class="col-md-4 center">
+<!-- Pomodoro timer section begin -->
+<div class="col-md-4 timer-location" ng-controller="TimerController">
 	<div class="time-chart">
 		<canvas id='time-rep' height='300px'></canvas>
 		<div id="timer-btn" class="btn btn-default" 
@@ -13,15 +14,26 @@
 		</div>
 	</div>
 	<div class="timer-options">
-		<h4>Work time | {{workSession | number:0}} min</h4>
+		<h5>Work time | {{workSession | number:0}} min</h5>
 		<slider floor="10" ceiling="60" step="5" precision="2"
 			ng-model="workSession"></slider>
-		<h4>Small break time | {{smallBreakSession | number:0}} min</h4>
+		<h5>Small break time | {{smallBreakSession | number:0}} min</h5>
 		<slider floor="0" ceiling="60" step="5" precision="2"
 			ng-model="smallBreakSession"></slider>
-		<h4>Big break time | {{bigBreakSession | number:0}} min</h4>
+		<h5>Big break time | {{bigBreakSession | number:0}} min</h5>
 		<slider floor="0" ceiling="90" step="5" precision="2"
 			ng-model="bigBreakSession"></slider>
-		<p>{{pomodoros}}</p>
+		<!-- <h5>Take a bigger break after {{bigBreakFreq | number:0}} pomodoros</h5> -->
+		<h5><ng-pluralize count="bigBreakFreq" when="{
+			'1': 'Take a bigger break after 1 pomodoro',
+			'other': 'Take a bigger break after {{bigBreakFreq | number:0}} pomodoros'
+		}"></ng-pluralize></h5>
+		<slider floor="1" ceiling="10" step="1" precision="1"
+			ng-model="bigBreakFreq"></slider>
 	</div>
+</div>
+<!-- Pomodoro timer section end -->
+
+<div class="col-md-8 project-section">
+	
 </div>

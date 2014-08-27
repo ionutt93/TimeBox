@@ -1,3 +1,8 @@
+body { 
+	padding-top: 70px;
+	background-color: #F8F8F8;
+}
+
 #timer-btn {
 	width: 130px;
 	height: 130px;
@@ -5,7 +10,7 @@
 
 	position: absolute;
 	left: 100px;
-	top: 85px;
+	top: 105px;
 }
 
 .time-chart {
@@ -23,4 +28,17 @@
 .timer-options {
 	margin-top: 40px;
 	width: 300px;
+}
+
+.timer-options slider, [slider] {
+	margin: 10px 0;
+}
+
+.timer-location {
+	margin-top: -20px;
+	padding-top: 20px;
+	width: 330px;
+	height: 93vh;
+	border-right: 1px solid #E7E7E7;
+
 }

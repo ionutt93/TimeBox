@@ -32,7 +32,7 @@ slider div.handle, [slider] div.handle {
   width: 25px;
   height: 25px;
   top: -5px;
-  background-color: #fff;
+  background-color: #F8F8F8;
   /* border: 1px solid #000; */
   z-index: 2;
   border-radius: 100%;
