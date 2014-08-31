@@ -5,10 +5,11 @@ angular.module('myGroupDirective', ['myTaskDirective']).directive('myGroup', fun
 		templateUrl: './views/group-partial.html',
 		link: function (scope, element, attrs) {
 			scope.groupName = attrs.name;
-			scope.addingTask = false;
+			scope.isCreateTaskVisible = false;
 
 			scope.prepNewTask = function () {
-				scope.addingTask = true;
+				if (scope.isCreateTaskVisible == false)
+					scope.isCreateTaskVisible = true;			
 			}
 		}
 	}
