@@ -1,0 +1,19 @@
+<div class="group">
+	<div class="group-head">
+		<div class="group-name">
+			<h3>{{groupName}}</h3>
+		</div>
+	</div>
+	<div class="group-body">
+		<div my-task class="new-task" ng-show="addingTask"></div>
+	</div>
+	<div class="group-tail" 
+		ng-click="prepNewTask()" 
+		ng-mouseenter="highlightType = 'highlight'" 
+		ng-mouseleave="highlightType = ''"
+		ng-class="highlightType">
+		<div class="add-task">
+			<p>Click here to add task ...</p>	
+		</div>
+	</div>
+</div>

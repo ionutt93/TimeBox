@@ -1,4 +1,5 @@
 angular.module('sampleApp', 
 	['ngRoute', 'appRoutes', 'MainCtrl', 
 	 'ProjectCtrl', 'NerdService', 'TimerCtrl', 
-	 'GeekService', 'ui.slider']);
+	 'GeekService', 'ui.slider', 'myTaskDirective',
+	 'myGroupDirective']);
