@@ -12,17 +12,17 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     var breakFinishedSound = new Audio('audio/break-finished.mp3');
 
     $scope.active = false;
-    $scope.remainingTime = $scope.workSession;
+    $scope.remainingTime = $scope.workSession * 60;
    	$scope.workTime = 0;
    	$scope.breakTime = 0;
-   	$scope.remainingBreakTime = $scope.smallBreakSession;
+   	$scope.remainingBreakTime = $scope.smallBreakSession * 60;
    	$scope.action = "Start";
    	
    	// Chart init data
 	var ctx = document.getElementById("time-rep").getContext("2d");
    	var chartData = [{
    		value: $scope.workTime,
-   		color: "#ff1d00"
+   		color: "#FD7373"
    	}, {
    		value: $scope.remainingTime,
    		color: "#e8e8e8"
@@ -30,13 +30,14 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		value: $scope.breakTime,
    		color: "#bee8ff"
     }, {
-   		value: $scope.smallBreakSession,
-   		color: "#9ec1d6"
+   		value: $scope.remainingBreakTime,
+   		color: "#e8e8e8"
    	}];
 
     var timeChart = new Chart(ctx).Doughnut(chartData, {
     	percentageInnerCutout : 45,
-    	animationEasing: "easeOutQuart"
+    	animationEasing: "easeOutQuart",
+      showTooltips: false
     });
 
     // Actions if button was clicked
@@ -67,21 +68,21 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     // Updates chart
     $scope.updateChart = function () {
-    	$scope.remainingTime = parseInt($scope.workSession);
+    	$scope.remainingTime = parseInt($scope.workSession) * 60;
    		$scope.workTime = 0;
    		$scope.breakTime = 0;
 
    		if ($scope.pomodoros != 0 && $scope.pomodoros % $scope.bigBreakFreq == 0)
-   			$scope.remainingBreakTime = parseInt($scope.bigBreakSession);	
+   			$scope.remainingBreakTime = parseInt($scope.bigBreakSession) * 60;	
    		else
-   			$scope.remainingBreakTime = parseInt($scope.smallBreakSession);	
+   			$scope.remainingBreakTime = parseInt($scope.smallBreakSession) * 60;	
 
    		timeChart.segments[0].value = $scope.workTime;
-		timeChart.segments[1].value = $scope.remainingTime;
-		timeChart.segments[2].value = $scope.breakTime;
-		timeChart.segments[3].value = $scope.remainingBreakTime;
+  		timeChart.segments[1].value = $scope.remainingTime;
+  		timeChart.segments[2].value = $scope.breakTime;
+  		timeChart.segments[3].value = $scope.remainingBreakTime;
 
-		timeChart.update();	
+  		timeChart.update();	
     };
 
     // Starts timer

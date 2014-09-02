@@ -40,7 +40,7 @@ slider div.handle, [slider] div.handle {
 /* line 38, slider.scss */
 slider div.handle:after, [slider] div.handle:after {
   content: '';
-  background-color: #F00;
+  background-color: #FD7373;
   width: 10px;
   height: 10px;
   position: absolute;
@@ -48,13 +48,15 @@ slider div.handle:after, [slider] div.handle:after {
   left: 7px;
   border-radius: 100%;
 }
+
+
 /* line 48, slider.scss */
 slider div.handle:after:hover, [slider] div.handle:after:hover {
   background-color: #000;
 }
 /* line 53, slider.scss */
 slider div.handle.active:after, [slider] div.handle.active:after {
-  background-color: #f00;
+  background-color: #FD7373;
 }
 /* line 58, slider.scss */
 slider div.bubble, [slider] div.bubble {
@@ -62,7 +64,7 @@ slider div.bubble, [slider] div.bubble {
   cursor: default;
   top: -22px;
   padding: 1px 3px 1px 3px;
-  font-size: 0.7em;
+  font-size: 0;
   font-family: sans-serif;
 }
 /* line 66, slider.scss */

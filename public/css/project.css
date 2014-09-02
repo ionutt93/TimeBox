@@ -1,10 +1,16 @@
+.container-fluid {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 .project-section {
 	margin-top: -20px;
 	height: 92.9vh;
 	width: 73.28%;
 	padding: 0;
-	overflow-x: auto;
-	overflow-y: hidden;
+	overflow: auto;
+	overflow-y: hidden;	
+	white-space: nowrap;
 }
 
 .group {
@@ -15,8 +21,13 @@
 
 	margin-top: 15px !important;
 	margin-left: 15px;
-	position: relative;
+
 	float: left;
+}
+
+.wrapper {
+	position: absolute;
+	width: 1200px;
 }
 
 .highlight p{
@@ -78,6 +89,7 @@
 	border: 0px solid white;
 	padding-left: 5px;
 	font-size: 16px;
+	color: #5E5E5E;
 }
 
 .new-task input:focus {
@@ -87,12 +99,11 @@
 .task-description {
 	width: 90%;
 	height: 100%;
-
 	margin: 5px;
-
 	font-size: 17px;
 }
 
 .task-description p {
 	margin: 0;
+	color: #5E5E5E;
 }

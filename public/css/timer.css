@@ -6,11 +6,24 @@ body {
 #timer-btn {
 	width: 130px;
 	height: 130px;
+
+	border: 3px solid #FD7373;
 	border-radius: 130px;
 
 	position: absolute;
 	left: 100px;
 	top: 105px;
+}
+
+#timer-btn:hover {
+	background-color: white;
+}
+
+#timer-btn h4 {
+	margin-top: 0px;
+	font-size: 20px;
+	font-weight: 200;
+	color: #5E5E5E;
 }
 
 .time-chart {
@@ -28,6 +41,14 @@ body {
 .timer-options {
 	margin-top: 40px;
 	width: 300px;
+}
+
+.timer-options h5 {
+	font-size: 16px;
+	font-weight: 200;
+	margin-bottom: 0;
+	margin-top: 35px;
+	color: #5E5E5E;
 }
 
 .timer-options slider, [slider] {
