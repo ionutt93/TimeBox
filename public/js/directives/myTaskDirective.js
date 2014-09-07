@@ -7,13 +7,12 @@ angular.module("myTaskDirective", []).directive('myTask', function () {
 			if (element.hasClass('new-task')) {
 				var e = document.createElement('INPUT');
 				e.setAttribute("type", "text");
-				
 				element.append(e);
+				
 				element.bind("keypress", function (event) {
 					if (event.which == 13) {
-						scope.newDescription = e.value;
+						addNewTask(e.value, attrs.groupIndex);
 						e.value = "";
-						addNewTask();
 					}
 				});
 			} else if (element.hasClass('task')) {
@@ -28,10 +27,20 @@ angular.module("myTaskDirective", []).directive('myTask', function () {
 			}
 
 			// Adds the new task and hides the create task box
-			function addNewTask () {
-				scope.tasks.push({ id: 4, description: scope.newDescription });
+			function addNewTask (value, groupIndex) {
+				console.log(groupIndex);
+
+				var task = {
+					description: value,
+					completed: false,
+					order: scope.groups[groupIndex].groupTasks.length
+				};
+
+
+				scope.groups[groupIndex].groupTasks.push(task);
+				scope.insertTask(groupIndex, task);
 				scope.newDescription = "";
-				scope.isCreateTaskVisible = false;
+				scope.groups[groupIndex].inputVisible = false;
 				scope.$digest();
 			}
 		}

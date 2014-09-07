@@ -1,23 +1,23 @@
 <div class="group">
 	<div class="group-head">
 		<div class="group-name">
-			<h3>{{groupName}}</h3>
+			<h3>{{group.groupName}}</h3>
 		</div>
 	</div>
 	<div class="group-body">
-		<div ng-repeat='task in tasks'>
+		<div ng-repeat='task in group.groupTasks'>
 			<div my-task class='task' description='{{task.description}}'></div>
 		</div>
-		<div my-task class='new-task' ng-show='isCreateTaskVisible'></div>
+		<div my-task class='new-task' my-focus-group='{{gIndex}}' group-index='{{gIndex}}' ng-show='group.inputVisible'></div>
 	</div>
-	<div class="group-tail" 
-		ng-click="prepNewTask()" 
-		ng-mouseenter="highlightType = 'highlight'" 
-		ng-mouseleave="highlightType = ''"
-		ng-class="highlightType">
+	<div class="group-tail"
+		 ng-click="group.inputVisible = true" 
+		 ng-mouseenter="highlightType = 'highlight'" 
+		 ng-mouseleave="highlightType = ''"
+		 ng-class="highlightType">
 
-		<div class="add-task">
-			<p>Click here to add task ...</p>	
+		<div ng-hide='group.inputVisible' class="add-task">
+			<p>Add a task ...</p>	
 		</div>
 	</div>
 </div>

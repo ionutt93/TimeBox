@@ -22,8 +22,7 @@
 			ng-model="smallBreakSession"></slider>
 		<h5>Big break time is now set at {{bigBreakSession | number:0}} min</h5>
 		<slider floor="0" ceiling="90" step="5" precision="2"
-			ng-model="bigBreakSession"></slider>
-		<!-- <h5>Take a bigger break after {{bigBreakFreq | number:0}} pomodoros</h5> -->
+			ng-model="bigBreakSession"></slider>	
 		<h5><ng-pluralize count="bigBreakFreq" when="{
 			'1': 'Take a bigger break after 1 pomodoro',
 			'other': 'Take a bigger break after {{bigBreakFreq | number:0}} pomodoros'
@@ -35,63 +34,14 @@
 <!-- Pomodoro timer section end -->
 <!-- Project section start -->
 <div class="col-md-8 project-section" ng-controller="ProjectController">
-	<div class="wrapper">
-		<data-my-group name='Test'></data-my-group>
-
-	<div class="group">
-		<div class="group-head">
-			<div class="group-name">
-				<h3>Name</h3>
-			</div>
+	<div class="wrapper" ng-style="{ 'width': wrapperWidth + 'px' }">
+		<div ng-repeat=" (gIndex, group) in groups">
+			<data-my-group name='{{group.groupName}}'></data-my-group>	
 		</div>
-		<div class="group-body">
-			<div class="task"></div>
-			<div class="task"></div>
-			<div class="task"></div>
-			<div class="task"></div>
+		<div my-focus-group class="create-new-group">
+			<h4 ng-hide='groupInputVisible' ng-click="groupInputVisible = true">Add a group ...</h4>
+			<input type='text' ng-show='groupInputVisible' my-enter>
 		</div>
-		<div class="group-tail">
-			<div class="add-task">
-				<p>Click here to add task ...</p>	
-			</div>
-		</div>
-	</div>
-
-	<div class="group">
-		<div class="group-head">
-			<div class="group-name">
-				<h3>Name</h3>
-			</div>
-		</div>
-		<div class="group-body">
-			<div class="task"></div>
-			<div class="task"></div>
-		</div>
-		<div class="group-tail">
-			<div class="add-task">
-				<p>Click here to add task ...</p>	
-			</div>
-		</div>
-	</div>
-
-	<div class="group">
-		<div class="group-head">
-			<div class="group-name">
-				<h3>Name</h3>
-			</div>
-		</div>
-		<div class="group-body">
-			<div class="task"></div>
-			<div class="task"></div>
-			<div class="task"></div>
-			<div class="task"></div>
-		</div>
-		<div class="group-tail">
-			<div class="add-task">
-				<p>Click here to add task ...</p>	
-			</div>
-		</div>
-	</div>	
 	</div>
 	
 

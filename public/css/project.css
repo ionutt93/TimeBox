@@ -25,12 +25,51 @@
 	float: left;
 }
 
-.wrapper {
-	position: absolute;
-	width: 1200px;
+.create-new-group {
+	width: 280px;
+	height: 53px;
+	background-color: #E8E8E8;
+	border: 3px solid white;
+	border-radius: 5px;
+	margin-top: 15px !important;
+	margin-left: 15px;
+	float: left;
+	padding: 0px 5px 5px 15px;
 }
 
-.highlight p{
+.create-new-group h4 {
+	color: #FD7373;
+	font-size: 25px;
+	font-weight: 200;
+}
+
+.create-new-group:hover h4 {
+	color: white;
+	cursor: pointer;
+}
+
+.create-new-group input {
+	margin-top: 3px;
+	background-color: #E8E8E8;
+	width: 100%;
+	height: 40px;
+	border: 0px solid white;
+	border-radius: 5px;
+	font-size: 20px;
+	font-weight: 200;
+	color: #FD7373;
+}
+
+.create-new-group input:focus {
+	outline-style: none;
+}
+
+.wrapper {
+	position: absolute;
+	width: auto;
+}
+
+.highlight p {
 	color: white !important;
 }
 
@@ -40,7 +79,6 @@
 
 .group-head {
 	margin-top: 0px;
-	font-size: 25px;
 
 	height: 50px;
 	background-color: #FD7373;
@@ -53,22 +91,30 @@
 	margin-left: 15px;
 	margin-top: -7px;
 	display: inline-block;
+}
+
+.group-name h3 {
 	color: white;
+	font-size: 25px;
+	font-weight: 200;
 }
 
 .group-body {
 	min-height: 8px;
+	padding-bottom: 10px;
 }
 
 .group-tail {
 	margin-left: 8px;
+	margin-top: -10px;
 	margin-bottom: -11px;
 	border-radius: 0 0 5px 5px;
 }
 
 .add-task {
 	color: #FD7373;
-	font-size: 16px;
+	font-size: 18px;
+	font-weight: 200;
 	margin-bottom: 8px;
 	display: inline-block;
 }
@@ -85,15 +131,16 @@
 
 .new-task input {
 	width: 100%;
-	min-height: 40px;
+	min-height: 36px;
 	border: 0px solid white;
+	border-radius: 5px;
 	padding-left: 5px;
 	font-size: 16px;
 	color: #5E5E5E;
 }
 
 .new-task input:focus {
-	outline-color: #FD7373;
+	outline-style: none;
 }
 
 .task-description {
