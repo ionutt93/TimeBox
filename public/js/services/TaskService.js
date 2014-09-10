@@ -13,7 +13,7 @@ angular.module('TaskService', []).factory('Task', ['$http', function ($http) {
 
         // call to delete a nerd
         delete: function (id) {
-            return $http.delete('/api/nerds/' + id);
+            return $http.delete('/api/tasks/' + id);
         }
 
     }

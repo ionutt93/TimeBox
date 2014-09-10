@@ -55,12 +55,30 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 	$scope.insertTask = function (groupIndex, task) {
 		Task.create($scope.groups[groupIndex].groupID, task)
 			.success(function (taskn, status, headers, config) {
-				console.log(taskn);
+				$scope.groups[groupIndex].groupTasks.push(taskn);
 			})
 			.error(function (error, status, headers, config) {
 				console.log(error);
 			});
-	}
+	};
+
+	// Removes task
+	$scope.removeTask = function (groupIndex, taskIndex) {
+		var id = $scope.groups[groupIndex].groupTasks[taskIndex]._id;
+		
+		console.log("Group Index:" + groupIndex + "Task Index:" + taskIndex);
+		console.log(id);
+
+		Task.delete(id)
+			.success(function () {
+				$scope.groups[groupIndex].groupTasks.splice(taskIndex, 1);
+				console.log("Succesfully removed task!");
+			})
+			.error(function (error, status, headers, config) {
+				console.log("Error in removing task")
+				console.log(error);
+			});
+	};
 
 	// Adds new group to database
 	$scope.insertGroup = function (groupName) {
@@ -80,6 +98,20 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		}).error(function (error, status, headers, config) {
 			console.log(error);
 		});
-	}
+	};
 
+	// Removes group from database (along with all tasks belonging to it)
+	$scope.removeGroup = function (gIndex) {
+		var id = $scope.groups[gIndex].groupID;
+
+		Group.delete(id)
+			.success(function () {
+				$scope.groups.splice(gIndex, 1);
+				console.log('Group succesfully removed!');
+			})
+			.error(function (error, status, headers, config) {
+				console.log("Error in removing group")
+				console.log(error);
+			});
+	}
 }]);

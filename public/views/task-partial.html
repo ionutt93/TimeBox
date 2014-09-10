@@ -1,0 +1,9 @@
+<div class="task" ng-click="task.active = !task.active">
+	<div class="task-description">
+		<p>{{task.description}}</p>
+	</div>
+	<div class="task-actions" ng-show="task.active">
+		<div class="fa fa-times pull-right"
+			ng-click="removeTask(gIndex, tIndex)"></div>
+	</div>
+</div>

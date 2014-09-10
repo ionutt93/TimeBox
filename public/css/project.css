@@ -88,9 +88,25 @@
 
 .group-name {
 	height: 40px;
+	width: 60%;
 	margin-left: 15px;
 	margin-top: -7px;
 	display: inline-block;
+}
+
+.group-actions {
+	height: 50px;
+	width: 30%;
+}
+
+.group-actions .fa-times {
+	font-size: 26px;
+	color: white;
+	margin: 12px 10px 12px auto;
+}
+
+.group-actions .fa-times:hover {
+	color: #E8E8E8;
 }
 
 .group-name h3 {
@@ -101,7 +117,9 @@
 
 .group-body {
 	min-height: 8px;
+	max-height: 76vh;
 	padding-bottom: 10px;
+	overflow-y: scroll;
 }
 
 .group-tail {
@@ -153,4 +171,22 @@
 .task-description p {
 	margin: 0;
 	color: #5E5E5E;
+	cursor: pointer;
+}
+
+.task-actions {
+	background-color: #FD7373;
+	border-radius: 0 0 3px 3px;
+	height: 30px;
+}
+
+.task-actions .fa-times {
+	color: white;
+	font-weight: 200;
+	font-size: 20px;
+	margin: 5px 5px 5px auto;
+}
+
+.task-actions .fa-times:hover {
+	color: #E8E8E8;
 }

@@ -41,7 +41,7 @@ angular.module('myGroupDirective', ['myTaskDirective'])
 				} else {
 					scope.$watch('groups[gIndex].inputVisible', function (newValue) {
             		if (newValue == true)
-            			element[0].lastChild.focus();
+            			element[0].children[0].children[0].focus();
             		});	
 				}
             }	

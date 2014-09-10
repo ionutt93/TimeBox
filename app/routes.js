@@ -27,6 +27,21 @@ module.exports = function (app) {
         });
     });
 
+    // Removes a group and all tasks belonging to it
+    app.delete('/api/groups/:group_id', function (req, res) {
+        Task.remove({ group: req.params.group_id }, function (err) {
+            if (err) 
+                res.send(err);
+        });
+
+        Group.remove({ _id: req.params.group_id }, function (err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Succesfully deleted group' });
+        })
+    });
+
     // Gets a single task
     app.get('/api/tasks/:task_id', function (req, res) {
         Task.find({ id: req.params.task_id }, function (err, task) {
@@ -34,6 +49,16 @@ module.exports = function (app) {
                 res.send(err);
 
             res.json(task);
+        });
+    });
+
+    // Deletes a task
+    app.delete('/api/tasks/:task_id', function (req, res) {
+        Task.remove({ _id: req.params.task_id }, function (err, task) {
+            if (err)
+                res.send("Task is not here");
+
+            res.json({ status: 200 });
         });
     });
 
