@@ -40,4 +40,22 @@ angular.module("myTaskDirective", [])
 				}
 			}
 		};
+	})
+	.directive('myStatusSwitch', function () {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				element[0].querySelector("." + attrs.show).style.display='none';
+
+				element.on('mouseenter', function () {
+					element[0].querySelector("." + attrs.hide).style.display='none';
+					element[0].querySelector("." + attrs.show).style.display='block';
+				});
+
+				element.on('mouseleave', function () {
+					element[0].querySelector("." + attrs.hide).style.display='block';
+					element[0].querySelector("." + attrs.show).style.display='none';
+				});
+			}
+		}
 	});
