@@ -6,7 +6,8 @@ var TaskSchema = new Schema({
 	description: { type: String, required: true },
 	completed: { type: Boolean, default: false },
 	order: { type: Number, required: true },
-	// pomodoros: { type: Number, min: 1, default: 1 },
+	completedPomodoros: { type: Number, min: 0, default: 0 }, 
+	totalPomodoros: { type: Number, min: 1, default: 1 },
 	group: { type: Schema.Types.ObjectId, ref: 'Group' }
 });
 

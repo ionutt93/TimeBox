@@ -1,8 +1,12 @@
-<div class="task" ng-click="task.active = !task.active">
-	<div class="task-description">
+<div class="task">
+	<div class="task-description" ng-click="task.active = !task.active">
 		<p>{{task.description}}</p>
 	</div>
 	<div class="task-actions" ng-show="task.active">
+		<div class="pomodoros pull-left">
+			<div ng-repeat='completedPomodoro in task.totalPomodoros' class="fa fa-circle pull-left"></div>
+			<div ng-repeat='unfinishedPomodoro in (task.totalPomodoros - task.completedPomodoros)' class="fa fa-circle-0 pull-left"></div>
+		</div>
 		<div class="fa fa-times pull-right"
 			ng-click="removeTask(gIndex, tIndex)"></div>
 	</div>

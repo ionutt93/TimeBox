@@ -180,6 +180,13 @@
 	height: 30px;
 }
 
+.task-actions .pomodoros {
+	color: white;
+	font-weight: 300;
+	font-size: 18px;
+	margin: 4px auto 6px 10px;
+}
+
 .task-actions .fa-times {
 	color: white;
 	font-weight: 200;
