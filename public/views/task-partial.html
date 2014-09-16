@@ -1,14 +1,14 @@
 <div class="task">
 	<div class="task-status pull-left" my-status-switch hide='pomodoros-left' show='fa-check'>
 		<div class="pomodoros-left"> {{task.totalPomodoros - task.completedPomodoros}} </div>
-		<div class="fa fa-check"></div>
+		<div class="fa fa-check"  ng-click="markAsCompleteOrRevert(gIndex, tIndex)"></div>
 	</div>
 	<div class="task-description" ng-click="task.active = !task.active">
 		<p>{{task.description}}</p>
 	</div>
 	<div class="task-actions" ng-show="task.active">
-		<div class="fa fa-plus pull-left"></div>
-		<div class="fa fa-minus pull-left"></div>
+		<div class="fa fa-plus pull-left" ng-click="addPomodoroToTotal(gIndex, tIndex)"></div>
+		<div class="fa fa-minus pull-left" ng-click="substractPomodoroFromTotal(gIndex, tIndex)"></div>
 		
 		<div class="completed-pomodoros pull-left">
 			{{task.completedPomodoros}} <div class="fa fa-circle"></div>

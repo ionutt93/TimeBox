@@ -23,6 +23,16 @@ angular.module("myTaskDirective", [])
 					}
 				});
 
+
+				element.bind("keydown", function (event) {
+					if (event.which == 27) {
+						console.log("dsfadsfa");
+						element[0].children[0].children[0].value = "";
+						scope.groups[attrs.groupIndex].inputVisible = false;
+						scope.$digest();
+					}
+				})
+
 				// Adds the new task and hides the create task box
 				function addNewTask (value, groupIndex) {
 					console.log(groupIndex);

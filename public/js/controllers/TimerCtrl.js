@@ -1,6 +1,6 @@
 'use strict'
 angular.module("TimerCtrl", []).controller("TimerController", function ($scope, $timeout) {
-    $scope.workSession = 25;
+    $scope.workSession = 0;
     $scope.smallBreakSession = 5;
     $scope.bigBreakSession = 15;
     $scope.pomodoros = 1;
@@ -124,6 +124,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    			$scope.pomodoros++;
 
    			pomodoroFinishedSound.play();
+        $scope.$parent.$emit('pomodoroFinished');
    			$scope.breakTick();
 
    		} else if (activeState == "Running") {

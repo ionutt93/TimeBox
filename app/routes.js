@@ -52,6 +52,21 @@ module.exports = function (app) {
         });
     });
 
+    // Updates a task
+    app.put('/api/tasks/:task_id', function (req, res) {
+        Task.update(
+            { _id: req.params.task_id },
+            { $set: req.body.updates}, 
+            function (err, task) {
+                if (err) {
+                    console.log(err);
+                    res.send(err);
+                }
+
+                res.json({ status: 200 });
+            });
+    });
+
     // Deletes a task
     app.delete('/api/tasks/:task_id', function (req, res) {
         Task.remove({ _id: req.params.task_id }, function (err, task) {

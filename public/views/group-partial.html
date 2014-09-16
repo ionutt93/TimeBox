@@ -6,11 +6,12 @@
 		<div class="group-actions pull-right">
 			<div class="fa fa-times pull-right"
 				ng-click="removeGroup(gIndex)"></div>
+			<div class="fa fa-archive pull-right" ng-click="group.showCompleted = !group.showCompleted"></div>
 		</div>
 	</div>
 	<div class="group-body">
 		<div ng-repeat='(tIndex, task) in group.groupTasks'>
-			<my-task></my-task>
+			<my-task ng-show="showTask(group.showCompleted, task.completed)"></my-task>
 		</div>
 		<my-new-task my-focus-group='{{gIndex}}' group-index='{{gIndex}}' ng-show='group.inputVisible'></my-new-task>
 	</div>

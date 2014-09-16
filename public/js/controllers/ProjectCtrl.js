@@ -6,9 +6,18 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 	$scope.groupInputVisible = false;
 	$scope.groups = [];
 	$scope.wrapperWidth = 0;
+	$scope.timedTask = {
+		gIndex: 0,
+		tIndex: 0
+	};
 
 	$scope.$watch('groups.length', function (newValue) {
 		$scope.wrapperWidth = (newValue + 1) * 295;
+	});
+
+	$scope.$parent.$on('pomodoroFinished', function () {
+		console.log("Cycle finished");
+		$scope.addPomodoroToCompleted($scope.timedTask);		
 	});
 
 	// Gets all groups from database
@@ -37,7 +46,8 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 					groupName: groupData[i].name,
 					groupOrder: groupData[i].order,
 					groupTasks: tasks,
-					inputVisible: false
+					inputVisible: false,
+					showCompleted: false
 				};
 
 				i++;
@@ -49,6 +59,23 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 				console.log(status);
 				console.log(error);
 			});
+	};
+
+	// Show uncompleted|completed tasks based on group settings
+	$scope.showTask = function (a, b) {
+		return (a && b) || (!a && !b);
+	};
+
+	// Update completed value
+	$scope.markAsCompleteOrRevert = function (gIndex, tIndex) {
+		Task.update($scope.groups[gIndex].groupTasks[tIndex]._id, {
+			completed: !$scope.groups[gIndex].groupTasks[tIndex].completed
+		}).success(function () {
+			$scope.groups[gIndex].groupTasks[tIndex].completed = !$scope.groups[gIndex].groupTasks[tIndex].completed;
+			console.log('Task succesfully updated');
+		}).error(function (error) {
+			console.log(error);
+		});
 	};
 
 	// Adds new task to database
@@ -79,6 +106,53 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 				console.log(error);
 			});
 	};
+
+	// Adds 1 pomodoro to task's completed pomodoros
+	$scope.addPomodoroToCompleted = function (timedTask) {
+		var task = $scope.groups[timedTask.gIndex].groupTasks[timedTask.tIndex];
+		if (task.completedPomodoros < task.totalPomodoros) {
+			Task.update(task._id, {
+				completedPomodoros: task.completedPomodoros + 1
+			}).success(function () {
+				$scope.groups[timedTask.gIndex].groupTasks[timedTask.tIndex].completedPomodoros += 1;
+				console.log("Task succesfully updated");
+				
+				if ($scope.groups[timedTask.gIndex].groupTasks[timedTask.tIndex].completedPomodoros == task.totalPomodoros)
+					$scope.markAsCompleteOrRevert(timedTask.gIndex, timedTask.tIndex);
+			}).error(function (error) {
+				console.log(error);
+			});		
+		}
+	}
+
+	// Adds 1 pomodoro to task's total pomodoros
+	$scope.addPomodoroToTotal = function (gIndex, tIndex) {
+		if ($scope.groups[gIndex].groupTasks[tIndex].totalPomodoros < 8) {
+			Task.update($scope.groups[gIndex].groupTasks[tIndex]._id, {
+				totalPomodoros: $scope.groups[gIndex].groupTasks[tIndex].totalPomodoros + 1
+			}).success(function () {
+				$scope.groups[gIndex].groupTasks[tIndex].totalPomodoros += 1;
+				console.log("Task succesfully updated");
+			}).error(function (error) {
+				console.log(error);
+			});
+		}
+	};
+
+	// Substracts 1 pomodoro from task's total pomodoros
+	$scope.substractPomodoroFromTotal = function (gIndex, tIndex) {
+		var task = $scope.groups[gIndex].groupTasks[tIndex];
+		if (task.totalPomodoros > task.completedPomodoros && task.totalPomodoros > 1) {
+			Task.update(task._id, { 
+				totalPomodoros: $scope.groups[gIndex].groupTasks[tIndex].totalPomodoros - 1
+			}).success(function () {
+				$scope.groups[gIndex].groupTasks[tIndex].totalPomodoros -= 1;
+				console.log("Task succesfully updated");
+			}).error(function (error) {
+				console.log(error);
+			});
+		}
+	}
 
 	// Adds new group to database
 	$scope.insertGroup = function (groupName) {

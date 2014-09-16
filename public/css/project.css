@@ -1,3 +1,19 @@
+.navbar-center {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    margin: auto;
+  	height:100%;
+}
+
+.navbar-brand {
+	color: #FD7373 !important;
+	font-size: 26px;
+}
+
+
 .container-fluid {
 	padding-left: 0;
 	padding-right: 0;
@@ -99,10 +115,20 @@
 	width: 30%;
 }
 
+.group-actions .fa-archive {
+	font-size: 20px;
+	color: white;
+	margin: 18px 2px auto auto;
+}
+
+.group-actions .fa-archive:hover {
+	color: #E8E8E8;
+}
+
 .group-actions .fa-times {
 	font-size: 26px;
 	color: white;
-	margin: 12px 10px 12px auto;
+	margin: 14px 10px 12px auto;
 }
 
 .group-actions .fa-times:hover {
@@ -198,6 +224,10 @@
 	margin: 5px 0 5px 5px;
 }
 
+.task-actions .fa-plus:hover, .fa-minus:hover {
+	color: #E8E8E8;
+}
+
 .task-actions .fa-times {
 	margin: 5px 5px 5px auto;
 }
@@ -225,6 +255,11 @@
 	margin-right: 5px;
 	border-right: 2px solid #FD7373;
 	border-radius: 3px 0 0 3px
+}
+
+.task-timed {
+	background-color: #FD7373 !important;
+	color: white !important;
 }
 
 .task-status:hover {
