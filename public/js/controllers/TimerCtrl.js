@@ -7,7 +7,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     $scope.bigBreakFreq = 4;
 
     var interval;
-    var activeState = "Stopped";
+    $scope.$parent.timerActiveState = "Stopped";
     var pomodoroFinishedSound = new Audio('audio/pomodoro-finished.mp3');
     var breakFinishedSound = new Audio('audio/break-finished.mp3');
 
@@ -61,7 +61,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     // Checks if the given state is active
     $scope.isActive = function (state) {
-    	if (activeState == state)
+    	if ($scope.$parent.timerActiveState == state)
     		return true;
     	return false;
     };
@@ -87,12 +87,12 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     // Starts timer
     $scope.startTimer = function () {
-    	if (activeState == "Stopped") {
+    	if ($scope.$parent.timerActiveState == "Stopped") {
     		$scope.updateChart();
     	}
     	
     	$scope.action = "Pause";
-    	activeState = "Running";
+    	$scope.$parent.timerActiveState = "Running";
     	if ($scope.isBreak == true)
     		$timeout($scope.breakTick, 1000);
     	else
@@ -102,7 +102,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
     // Stops timer
     $scope.stopTimer = function () {
    		$scope.action = "Start";
-   		activeState = "Stopped";
+   		$scope.$parent.timerActiveState = "Stopped";
    		$scope.isBreak = false;
 
    		$scope.updateChart();
@@ -110,9 +110,9 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
     // Pause timer
     $scope.pauseTimer = function () {
-    	if (activeState == "Running") {
+    	if ($scope.$parent.timerActiveState == "Running") {
 			$scope.action = "Start";
-			activeState = "Pause";
+			$scope.$parent.timerActiveState = "Pause";
     	}
     };
 
@@ -127,7 +127,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
         $scope.$parent.$emit('pomodoroFinished');
    			$scope.breakTick();
 
-   		} else if (activeState == "Running") {
+   		} else if ($scope.$parent.timerActiveState == "Running") {
 	   		$scope.workTime++;
 	   		$scope.remainingTime--;
 
@@ -143,7 +143,7 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 
    	// Updates break time
    	$scope.breakTick = function () {
-   		if ($scope.remainingBreakTime != 0 && activeState == "Running") {
+   		if ($scope.remainingBreakTime != 0 && $scope.$parent.timerActiveState == "Running") {
    			$scope.breakTime++;
 			$scope.remainingBreakTime--;
 

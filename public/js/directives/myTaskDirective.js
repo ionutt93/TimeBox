@@ -35,8 +35,6 @@ angular.module("myTaskDirective", [])
 
 				// Adds the new task and hides the create task box
 				function addNewTask (value, groupIndex) {
-					console.log(groupIndex);
-
 					var task = {
 						description: value,
 						completed: false,
@@ -50,6 +48,36 @@ angular.module("myTaskDirective", [])
 				}
 			}
 		};
+	})
+	.directive('myTaskInput', function () {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				var tIndex = attrs.taskIndex;
+				var gIndex = attrs.groupIndex;
+
+				element.bind('keypress', function (event) {
+					if (event.which == 13) {
+						scope.groups[gIndex].groupTasks[tIndex].editMode = false;
+						scope.updateTaskDescription(gIndex, tIndex, {
+							description: element[0].value
+						});
+						scope.$digest();
+					}
+				});
+
+				element.bind('keydown', function (event) {
+					if (event.which == 27) {
+						scope.groups[gIndex].groupTasks[tIndex].editMode = false;
+						scope.$digest();
+					}
+				});
+
+				scope.toggle = function () {
+
+				}
+			}
+		}
 	})
 	.directive('myStatusSwitch', function () {
 		return {

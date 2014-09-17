@@ -7,12 +7,12 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 	$scope.groups = [];
 	$scope.wrapperWidth = 0;
 	$scope.timedTask = {
-		gIndex: 0,
-		tIndex: 0
+		gIndex: undefined,
+		tIndex: undefined
 	};
 
 	$scope.$watch('groups.length', function (newValue) {
-		$scope.wrapperWidth = (newValue + 1) * 295;
+		$scope.wrapperWidth = (newValue + 1) * 335;
 	});
 
 	$scope.$parent.$on('pomodoroFinished', function () {
@@ -66,12 +66,42 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		return (a && b) || (!a && !b);
 	};
 
+	// Changes the timed task
+	$scope.setTimedTask = function (gIndex, tIndex) {
+		// TODO check if timer is running, change values only if it's stopped
+
+		if ($scope.$parent.timerActiveState !== "Stopped")
+			return;
+
+		if (gIndex == $scope.timedTask.gIndex && tIndex == $scope.timedTask.tIndex) {
+			$scope.groups[gIndex].groupTasks[tIndex].isTimed = false;
+			$scope.timedTask.gIndex = undefined;
+			$scope.timedTask.tIndex = undefined;
+
+			return;
+		}
+
+		if ($scope.timedTask.gIndex !== undefined)
+			$scope.groups[$scope.timedTask.gIndex].groupTasks[$scope.timedTask.tIndex].isTimed = false;
+		
+		$scope.groups[gIndex].groupTasks[tIndex].isTimed = true;
+		$scope.timedTask.gIndex = gIndex;
+		$scope.timedTask.tIndex = tIndex;
+	};
+
 	// Update completed value
 	$scope.markAsCompleteOrRevert = function (gIndex, tIndex) {
 		Task.update($scope.groups[gIndex].groupTasks[tIndex]._id, {
 			completed: !$scope.groups[gIndex].groupTasks[tIndex].completed
 		}).success(function () {
 			$scope.groups[gIndex].groupTasks[tIndex].completed = !$scope.groups[gIndex].groupTasks[tIndex].completed;
+
+			if ($scope.timedTask.gIndex == gIndex && $scope.timedTask.tIndex == tIndex) {
+				$scope.groups[gIndex].groupTasks[tIndex].isTimed = false;
+				$scope.timedTask.gIndex = undefined;
+				$scope.timedTask.tIndex = undefined;
+			}
+
 			console.log('Task succesfully updated');
 		}).error(function (error) {
 			console.log(error);
@@ -82,6 +112,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 	$scope.insertTask = function (groupIndex, task) {
 		Task.create($scope.groups[groupIndex].groupID, task)
 			.success(function (taskn, status, headers, config) {
+				taskn.active = true;
 				$scope.groups[groupIndex].groupTasks.push(taskn);
 			})
 			.error(function (error, status, headers, config) {
@@ -99,6 +130,12 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		Task.delete(id)
 			.success(function () {
 				$scope.groups[groupIndex].groupTasks.splice(taskIndex, 1);
+
+				if ($scope.timedTask.gIndex == groupIndex && $scope.timedTask.tIndex == taskIndex) {
+					$scope.timedTask.gIndex = undefined;
+					$scope.timedTask.tIndex = undefined;
+				}
+
 				console.log("Succesfully removed task!");
 			})
 			.error(function (error, status, headers, config) {
@@ -107,8 +144,25 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 			});
 	};
 
+	$scope.updateTaskDescription = function (gIndex, tIndex, updates) {
+		var id = $scope.groups[gIndex].groupTasks[tIndex]._id;
+		var oldValue = $scope.groups[gIndex].groupTasks[tIndex].description;
+		$scope.groups[gIndex].groupTasks[tIndex].description = updates.description;
+
+		Task.update(id, updates)
+			.success(function () {
+				console.log("Task succesfully updated");
+			}).error(function (error) {
+				$scope.groups[gIndex].groupTasks[tIndex].description = oldValue;
+				console.log(error);
+			});
+	};
+
 	// Adds 1 pomodoro to task's completed pomodoros
 	$scope.addPomodoroToCompleted = function (timedTask) {
+		if (timedTask.gIndex == undefined || timedTask.tIndex == undefined)
+			return;
+
 		var task = $scope.groups[timedTask.gIndex].groupTasks[timedTask.tIndex];
 		if (task.completedPomodoros < task.totalPomodoros) {
 			Task.update(task._id, {

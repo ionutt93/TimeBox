@@ -3,9 +3,23 @@
 		<div class="pomodoros-left"> {{task.totalPomodoros - task.completedPomodoros}} </div>
 		<div class="fa fa-check"  ng-click="markAsCompleteOrRevert(gIndex, tIndex)"></div>
 	</div>
-	<div class="task-description" ng-click="task.active = !task.active">
-		<p>{{task.description}}</p>
+	<div class="task-description">
+		<p ng-hide="task.editMode" ng-click="task.active = !task.active">{{task.description}}</p>
+		<input type="text" ng-show='task.editMode' 
+			my-task-input 
+			group-index='{{gIndex}}' 
+			task-Index='{{tIndex}}' 
+			value='{{task.description}}'>
 	</div>
+	
+	<div class="task-timer-switch fa fa-clock-o pull-right" 
+		ng-click='setTimedTask(gIndex, tIndex)'
+		ng-class='{ on: task.isTimed,
+					off: !task.isTimed }'></div>
+	<div class="task-edit-description off fa fa-pencil-square-o pull-right" 
+		ng-show="task.active && !task.editMode"
+		ng-click="task.editMode = true"></div>
+
 	<div class="task-actions" ng-show="task.active">
 		<div class="fa fa-plus pull-left" ng-click="addPomodoroToTotal(gIndex, tIndex)"></div>
 		<div class="fa fa-minus pull-left" ng-click="substractPomodoroFromTotal(gIndex, tIndex)"></div>
