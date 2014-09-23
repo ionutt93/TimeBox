@@ -11,7 +11,14 @@
 	</div>
 	<div class="group-body">
 		<div ng-repeat='(tIndex, task) in group.groupTasks'>
-			<my-task ng-show="showTask(group.showCompleted, task.completed)"></my-task>
+			<div my-droppable ng-show="showTask(group.showCompleted, task.completed)" drop='moveTaskTo' group-index='{{gIndex}}' task-order='{{task.order}}'>{{task.order}}
+				<div class="task-shadow"></div>
+				<my-task group-index='{{gIndex}}' task-index='{{tIndex}}' ng-show="showTask(group.showCompleted, task.completed)"></my-task>
+			</div>
+		</div>
+		<div my-droppable drop="moveTaskTo" group-index="{{gIndex}}" task-order="{{group.groupTasks.length}}">
+			<div class="task-shadow"></div>
+			<div class='empty-space'></div>
 		</div>
 		<my-new-task my-focus-group='{{gIndex}}' group-index='{{gIndex}}' ng-show='group.inputVisible'></my-new-task>
 	</div>

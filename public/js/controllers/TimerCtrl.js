@@ -1,21 +1,23 @@
 'use strict'
 angular.module("TimerCtrl", []).controller("TimerController", function ($scope, $timeout) {
-    $scope.workSession = 0;
+    $scope.workSession = 25;
     $scope.smallBreakSession = 5;
     $scope.bigBreakSession = 15;
     $scope.pomodoros = 1;
     $scope.bigBreakFreq = 4;
+    $scope.$parent.timerActiveState = "Stopped";
 
     var interval;
-    $scope.$parent.timerActiveState = "Stopped";
     var pomodoroFinishedSound = new Audio('audio/pomodoro-finished.mp3');
     var breakFinishedSound = new Audio('audio/break-finished.mp3');
 
     $scope.active = false;
     $scope.remainingTime = $scope.workSession * 60;
+    $scope.remaining = $scope.remainingTime * 1000;
    	$scope.workTime = 0;
    	$scope.breakTime = 0;
    	$scope.remainingBreakTime = $scope.smallBreakSession * 60;
+    $scope.remainingBreak = $scope.remainingBreakTime * 1000;
    	$scope.action = "Start";
    	
    	// Chart init data
@@ -131,28 +133,31 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
 	   		$scope.workTime++;
 	   		$scope.remainingTime--;
 
-			timeChart.segments[0].value = $scope.workTime;
-			timeChart.segments[1].value = $scope.remainingTime;
+            $scope.remaining = $scope.remainingTime * 1000;
 
-			timeChart.update();
+  			timeChart.segments[0].value = $scope.workTime;
+  			timeChart.segments[1].value = $scope.remainingTime;
 
-			console.log("Tick");
-			$timeout($scope.tick, 1000);	
-   		}
+  			timeChart.update();
+
+  			console.log("Tick");
+  			$timeout($scope.tick, 1000);	
+   	    }
    	};
 
    	// Updates break time
    	$scope.breakTick = function () {
    		if ($scope.remainingBreakTime != 0 && $scope.$parent.timerActiveState == "Running") {
    			$scope.breakTime++;
-			$scope.remainingBreakTime--;
+  			$scope.remainingBreakTime--;
+            $scope.remainingBreak = $scope.remainingBreakTime * 1000;
 
-			timeChart.segments[2].value = $scope.breakTime;
-			timeChart.segments[3].value = $scope.remainingBreakTime;
+  			timeChart.segments[2].value = $scope.breakTime;
+  			timeChart.segments[3].value = $scope.remainingBreakTime;
 
-			timeChart.update();
-			console.log("break tick");
-			$timeout($scope.breakTick, 1000);	
+  			timeChart.update();
+  			console.log("break tick");
+  			$timeout($scope.breakTick, 1000);	
    		} else if ($scope.remainingBreakTime == 0) {
    			$scope.stopTimer();
    			breakFinishedSound.play();

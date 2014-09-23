@@ -22,11 +22,12 @@
 .project-section {
 	margin-top: -20px;
 	height: 92.9vh;
-	width: 73.28%;
+	/*width: 73.28%;*/
+	width: 74vw;
 	padding: 0;
 	overflow: auto;
 	overflow-y: hidden;	
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 
 .group {
@@ -99,7 +100,7 @@
 	height: 50px;
 	background-color: #FD7373;
 	border-radius: 3px 3px 0 0;
-	border-bottom: 2px solid white;
+	border-bottom: 3px solid white;
 }
 
 .group-name {
@@ -161,6 +162,29 @@
 	font-weight: 200;
 	margin-bottom: 8px;
 	display: inline-block;
+}
+
+.drag {
+	background-color: #e7e7e7;
+}
+
+.over {
+	display: block !important;
+}
+
+.task-shadow {
+	height: 40px;
+	width: 96%;
+	background-color: lightgrey;
+	border-radius: 5px;
+	margin: 6px;
+	display: none;
+}
+
+.empty-space {
+	height: 40px;
+	width: 96%;
+	margin: 0 6px -35px 6px;
 }
 
 .task, .new-task {

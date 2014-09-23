@@ -50,6 +50,8 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 					showCompleted: false
 				};
 
+				group.groupTasks.sort(compare);
+
 				i++;
 				$scope.groups.push(group);
 				addTasksToGroups(groupData, i);
@@ -58,6 +60,41 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 			.error(function (error, status, headers, config) {
 				console.log(status);
 				console.log(error);
+			});
+	};
+
+	// Comparison function for tasks
+	function compare (a, b) {
+		if (a.order < b.order)
+			return -1;
+		if (a.order > b.order)
+			return 1;
+		return 0;
+	};
+
+	// Substract one from the order of tasks after it (from previous group)
+	function repositionTasks (direction, tOrder, gIndex) {
+		for (var i=0; i < $scope.groups[gIndex].groupTasks.length; i++) {
+			if ($scope.groups[gIndex].groupTasks[i].order >= tOrder)
+				$scope.groups[gIndex].groupTasks[i].order += direction;
+		}
+	};
+
+	// Updates database when task is moved
+	function updateMovedTask (id, oldOrder, oldGroupId, newOrder, newGroupId) {
+		var taskData = {
+			oldOrder: oldOrder,
+			oldGroupId: oldGroupId,
+			newOrder: newOrder,
+			newGroupId: newGroupId
+		};
+
+		Task.updateOrder(id, taskData)
+			.success(function () {
+				console.log('Tasks in db succesfully updated!');
+			})
+			.error(function (error) {
+				console.log('Error');
 			});
 	};
 
@@ -120,15 +157,35 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 			});
 	};
 
+
+	// Moves task to different group
+	$scope.moveTaskTo = function (tInfo, gIndex) {
+		var task = $scope.groups[tInfo.gIndex].groupTasks[tInfo.tIndex];
+		var oldOrder = task.order;
+		var newOrder = tInfo.tOrder;
+		console.log("new order " + newOrder);
+		var oldGroupId = $scope.groups[tInfo.gIndex].groupID;
+		var newGroupId = $scope.groups[gIndex].groupID;
+
+		$scope.groups[tInfo.gIndex].groupTasks.splice(tInfo.tIndex, 1);
+		// Reposition tasks from first group
+		repositionTasks(-1, task.order, tInfo.gIndex);
+		// Reposition tasks from second group
+		repositionTasks(1, tInfo.tOrder, gIndex);
+		task.order = tInfo.tOrder;
+
+		$scope.groups[gIndex].groupTasks.push(task);
+		$scope.groups[gIndex].groupTasks.sort(compare);
+		updateMovedTask(task._id, oldOrder, oldGroupId, newOrder, newGroupId);
+	};
+
 	// Removes task
 	$scope.removeTask = function (groupIndex, taskIndex) {
 		var id = $scope.groups[groupIndex].groupTasks[taskIndex]._id;
-		
-		console.log("Group Index:" + groupIndex + "Task Index:" + taskIndex);
-		console.log(id);
 
 		Task.delete(id)
 			.success(function () {
+				repositionTasks(-1, $scope.groups[groupIndex].groupTasks[taskIndex].order, groupIndex);
 				$scope.groups[groupIndex].groupTasks.splice(taskIndex, 1);
 
 				if ($scope.timedTask.gIndex == groupIndex && $scope.timedTask.tIndex == taskIndex) {

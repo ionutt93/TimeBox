@@ -9,8 +9,8 @@
 				'fa-play': isActive('Pause') || isActive('Stopped'),
 				'fa-pause': isActive('Running')
 			}"></i>
-			<h4 ng-hide="isBreak">{{remainingTime * 1000 | date : "mm:ss"}}</h4>
-			<h4 ng-show="isBreak">{{remainingBreakTime * 1000 | date : "mm:ss"}}</h4>
+			<h4 ng-hide="isBreak">{{remaining | date : "mm:ss"}}</h4>
+			<h4 ng-show="isBreak">{{remainingBreak | date : "mm:ss"}}</h4>
 		</div>
 	</div>
 	<div class="timer-options">

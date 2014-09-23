@@ -18,6 +18,10 @@ angular.module('TaskService', []).factory('Task', ['$http', function ($http) {
 
         update: function (id, taskData) {
             return $http.put('/api/tasks/' + id, { updates: taskData });
+        },
+
+        updateOrder: function (id, taskData) {
+            return $http.put('/api/tasks/' + id + '/order', { updates: taskData });
         }
 
     }
