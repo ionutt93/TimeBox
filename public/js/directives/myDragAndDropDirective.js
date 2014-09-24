@@ -31,29 +31,41 @@ angular.module('myDragAndDropDirective', [])
 		},
 		link: function (scope, element, attrs) {
 			var el = element[0];
+			var shadow = el.querySelector('.task-shadow');
+			var task = el.querySelector('.task');
 
-			el.addEventListener('dragover', function (e) {
+			shadow.addEventListener('dragover', function (e) {
 				e.dataTransfer.dropEffect = 'move';
 				if (e.preventDefault)
 					e.preventDefault();
-				
-				this.querySelector('.task-shadow').classList.add('over');
+				if(!shadow.classList.contains('over'))
+					shadow.classList.add('over');
+				console.log("dragOver");
 				return false;
 			}, false);
 
-			el.addEventListener('dragenter', function (e) {
-				this.querySelector('.task-shadow').classList.add('over');
-				console.log('add');
+			if(task) {
+				task.addEventListener('dragenter', function (e) {
+					shadow.classList.toggle('over');
+					console.log('dragenter task');
+					return false;
+				}, false);
+			} else {
+				el.querySelector('.empty-space').addEventListener('dragenter', function (e) {
+					shadow.classList.toggle('over');
+					console.log('dragenter task');
+					return false;
+				}, false);
+			}
+
+			shadow.addEventListener('dragleave', function (e) {
+				shadow.classList.remove('over');
+				console.log('dragleave');
 				return false;
 			}, false);
 
-			el.querySelector('.task-shadow').addEventListener('dragleave', function (e) {
-				this.classList.remove('over');
-				console.log('remove');
-				return false;
-			}, false);
-
-			el.querySelector('.task-shadow').addEventListener('drop', function (e) {
+			shadow.addEventListener('drop', function (e) {
+				console.log('drop');
 				if (e.stopPropagation)
 					e.stopPropagation();
 				this.classList.remove('over');

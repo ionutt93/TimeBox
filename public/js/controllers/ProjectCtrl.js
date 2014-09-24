@@ -167,13 +167,20 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		var oldGroupId = $scope.groups[tInfo.gIndex].groupID;
 		var newGroupId = $scope.groups[gIndex].groupID;
 
+		console.log("task.order: " + task.order);
+		console.log("tInfo.tOrder " + tInfo.tOrder);
+		if (task.order == tInfo.tOrder)
+			return;
+
 		$scope.groups[tInfo.gIndex].groupTasks.splice(tInfo.tIndex, 1);
 		// Reposition tasks from first group
 		repositionTasks(-1, task.order, tInfo.gIndex);
 		// Reposition tasks from second group
+		if (oldGroupId === newGroupId)
+			tInfo.tOrder -= 1;	
 		repositionTasks(1, tInfo.tOrder, gIndex);
-		task.order = tInfo.tOrder;
 
+		task.order = tInfo.tOrder;
 		$scope.groups[gIndex].groupTasks.push(task);
 		$scope.groups[gIndex].groupTasks.sort(compare);
 		updateMovedTask(task._id, oldOrder, oldGroupId, newOrder, newGroupId);

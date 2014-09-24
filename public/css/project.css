@@ -111,6 +111,14 @@
 	display: inline-block;
 }
 
+.group-name p {
+	margin-left: 138px;
+	margin-top: -37px;
+	font-size: 19px;
+	font-weight: 200;
+	color: white;
+}
+
 .group-actions {
 	height: 50px;
 	width: 30%;

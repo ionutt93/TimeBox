@@ -88,21 +88,23 @@ module.exports = function (app) {
         });
 
         // Repositions tasks from second group
-        Task.find({
-            group: req.body.updates.newGroupId,
-            order: { $gte: req.body.updates.newOrder }
-        }, function (err, tasks) {
-            if (err)
-                res.sent(err);
+        if(req.body.updates.oldGroupId != req.body.updates.newGroupId) {
+            Task.find({
+                group: req.body.updates.newGroupId,
+                order: { $gte: req.body.updates.newOrder }
+            }, function (err, tasks) {
+                if (err)
+                    res.sent(err);
 
-            for(var i = 0; i < tasks.length; i++) {
-                tasks[i].order += 1;
-                tasks[i].save(function (err) {
-                    if (err)
-                        res.send(err);
-                });
-            }
-        });
+                for(var i = 0; i < tasks.length; i++) {
+                    tasks[i].order += 1;
+                    tasks[i].save(function (err) {
+                        if (err)
+                            res.send(err);
+                    });
+                }
+            });
+        }
 
         // Update the moved task
         Task.update({ 

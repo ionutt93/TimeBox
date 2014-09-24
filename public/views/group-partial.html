@@ -2,6 +2,7 @@
 	<div class="group-head">
 		<div class="group-name pull-left">
 			<h3>{{group.groupName}}</h3>
+			<p ng-show='group.showCompleted'>(completed)</p>
 		</div>
 		<div class="group-actions pull-right">
 			<div class="fa fa-times pull-right"
@@ -11,7 +12,7 @@
 	</div>
 	<div class="group-body">
 		<div ng-repeat='(tIndex, task) in group.groupTasks'>
-			<div my-droppable ng-show="showTask(group.showCompleted, task.completed)" drop='moveTaskTo' group-index='{{gIndex}}' task-order='{{task.order}}'>{{task.order}}
+			<div my-droppable ng-show="showTask(group.showCompleted, task.completed)" drop='moveTaskTo' group-index='{{gIndex}}' task-order='{{task.order}}'>
 				<div class="task-shadow"></div>
 				<my-task group-index='{{gIndex}}' task-index='{{tIndex}}' ng-show="showTask(group.showCompleted, task.completed)"></my-task>
 			</div>
