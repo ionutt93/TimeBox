@@ -13,7 +13,6 @@ var port = process.env.PORT || 3000; // set our port
 // Models
 var User = require('./models/user');
 
-
 // Connect to database
 if ('development' == app.get('env'))
 	mongoose.connect(db.dev_url, function (err) {
