@@ -163,13 +163,11 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		var task = $scope.groups[tInfo.gIndex].groupTasks[tInfo.tIndex];
 		var oldOrder = task.order;
 		var newOrder = tInfo.tOrder;
-		console.log("new order " + newOrder);
+		
 		var oldGroupId = $scope.groups[tInfo.gIndex].groupID;
 		var newGroupId = $scope.groups[gIndex].groupID;
 
-		console.log("task.order: " + task.order);
-		console.log("tInfo.tOrder " + tInfo.tOrder);
-		if (task.order == tInfo.tOrder)
+		if (task.order == tInfo.tOrder && oldGroupId == newGroupId)
 			return;
 
 		$scope.groups[tInfo.gIndex].groupTasks.splice(tInfo.tIndex, 1);
