@@ -87,6 +87,30 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
   		timeChart.update();	
     };
 
+    // Update the chart when work session is changed
+    $scope.$watch('workSession', function (newValue, oldValue) {
+      $scope.updateChart();
+      $scope.remainingTime = $scope.workSession * 60;
+      $scope.remaining = $scope.remainingTime * 1000;
+      console.log("Work session changed");
+    });
+
+
+    // Update the chart when small break session is changed
+    $scope.$watch('smallBreakSession', function (newValue, oldValue) {
+      $scope.updateChart();
+      $scope.remainingBreakTime = $scope.smallBreakSession * 60;
+      $scope.remainingBreak = $scope.remainingBreakTime * 1000;
+      console.log("Small break session session changed");
+    });
+
+
+    // Update the chart when big break session is changed
+    $scope.$watch('bigBreakSession', function (newValue, oldValue) {
+      $scope.updateChart();
+      console.log("Big break session session changed");
+    });
+
     // Starts timer
     $scope.startTimer = function () {
     	if ($scope.$parent.timerActiveState == "Stopped") {
@@ -107,6 +131,9 @@ angular.module("TimerCtrl", []).controller("TimerController", function ($scope, 
    		$scope.$parent.timerActiveState = "Stopped";
    		$scope.isBreak = false;
 
+      $scope.remainingTime = $scope.workSession * 60;
+      $scope.remaining = $scope.remainingTime * 1000;
+      
    		$scope.updateChart();
     };
 

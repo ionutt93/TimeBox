@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 792 612" style="enable-background:new 0 0 792 612;" xml:space="preserve">
+<style type="text/css">
+	.Drop_x0020_Shadow{fill:none;}
+	.st0{fill:#EDEDED;stroke:#B2B2B2;stroke-width:0.5;}
+	.st1{font-family:'Avenir-Heavy';}
+	.st2{font-size:48;}
+	.st3{fill:#E6332A;stroke:#C6C6C6;stroke-width:0.5;stroke-miterlimit:10;}
+	.st4{fill:#F6F6F6;stroke:#C6C6C6;stroke-width:0.5;stroke-miterlimit:10;}
+	.st5{fill:#878787;stroke:#C6C6C6;stroke-width:0.25;stroke-miterlimit:10;}
+	.st6{fill:#FFFFFF;}
+	.st7{fill:#E6332A;}
+</style>
+<g id="Text_Layer">
+	<text transform="matrix(1 0 0 1 150 231)" class="st0 st1 st2">TomaTic</text>
+</g>
+<g id="Layer_2">
+	<g>
+		<circle class="st3" cx="187" cy="219.6" r="13"/>
+		<circle class="st4" cx="187" cy="219.6" r="7.8"/>
+		<polygon class="st5" points="184.4,215.9 191.2,219.6 184.4,223.3 		"/>
+	</g>
+	<g>
+		<line class="st6" x1="334.7" y1="217.7" x2="345.9" y2="228.7"/>
+		<g>
+			<path class="st7" d="M332.5,219.9c3.7,3.7,7.5,7.3,11.2,11c2.8,2.7,7-1.5,4.2-4.2c-3.7-3.7-7.5-7.3-11.2-11
+				C334,212.9,329.8,217.1,332.5,219.9L332.5,219.9z"/>
+		</g>
+	</g>
+	<g>
+		<line class="st6" x1="345.9" y1="228.7" x2="368.2" y2="202.5"/>
+		<g>
+			<path class="st7" d="M348,230.9c7.4-8.7,14.9-17.5,22.3-26.2c2.5-2.9-1.7-7.2-4.2-4.2c-7.4,8.7-14.9,17.5-22.3,26.2
+				C341.3,229.5,345.5,233.8,348,230.9L348,230.9z"/>
+		</g>
+	</g>
+</g>
+</svg>
