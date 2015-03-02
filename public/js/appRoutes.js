@@ -1,5 +1,10 @@
 'use strict'
 angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    // user login page
+    $routeProvider.when('/login', {
+        templateUrl: 'views/login.html'
+    });
+
     // home page
     $routeProvider.when('/', {
         templateUrl: 'views/home.html',
