@@ -1,3 +1,7 @@
+body {
+	background-image: "img/background.jpg" !important;
+}
+
 .login-box {
 	width: 400px;
 	height: 400px;
@@ -7,6 +11,8 @@
 	border: solid #E0E0E0 1px;
 	border-bottom: solid darkgray 1px;
 	border-radius: 10px;
+
+	background-color: rgba(255, 255, 255, 0.4);
 }
 
 .login-box > h2 {
@@ -27,8 +33,13 @@
 	font-weight: 200;
 	border: solid #E0E0E0 1px;
 	/*border-bottom: solid darkgray 1px;*/
-	background: white;
+	/*background: white;*/
+	background-color: rgba(255, 255, 255, 0.5);
 	box-shadow: none !important;
+}
+
+.form-control:focus {
+	outline-color: red !important;
 }
 
 .login-btn {
