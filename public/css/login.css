@@ -1,5 +1,15 @@
-body {
-	background-image: "img/background.jpg" !important;
+.body {
+	background-image: url("/img/background.jpg") !important;
+}
+
+.login-box-blurred {
+	position: absolute;
+	width: 400px;
+	height: 400px;
+
+	border-radius: 10px;
+	margin-left: 34.4vw;
+	-webkit-filter: blur(10px);
 }
 
 .login-box {
@@ -13,6 +23,7 @@ body {
 	border-radius: 10px;
 
 	background-color: rgba(255, 255, 255, 0.4);
+	/*background-color: rgba(255, 255, 255, 0.4);*/
 }
 
 .login-box > h2 {

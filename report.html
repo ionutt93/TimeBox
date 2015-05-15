@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Report</title>
+</head>
+<body>
+<style type="text/css">
+	
+	.container {
+		width: 75%;
+		margin: 30px auto;
+
+		border: solid 1px lightgray;
+		border-bottom: solid 1px gray;
+		border-radius: 5px;
+		background-color: white;
+
+		padding-bottom: 50px;
+	}
+
+	.title, .author {
+		margin: 10px auto;
+		text-align: center;
+
+		font-family: "Helvetica";
+		font-weight: 200;
+		color: gray;
+	}
+
+	.title {
+		margin-top: 80px;
+	}
+
+	.author {
+		margin-bottom: 60px;
+	}
+
+	.red-part {
+		color: #FD7373;
+	}
+
+	h2, h3, p, ul {
+		margin-left: 65px;
+		margin-right: 65px;
+		font-family: "Helvetica";
+		font-weight: 200;
+		color: gray;
+		text-align: justify;
+	}
+
+
+	h2, h3 {
+		color: #FD7373;
+	}
+
+	ul {
+		list-style-type: circle;
+		line-height: 1.4;
+	}
+
+	p {
+		line-height: 1.5;
+	}
+
+	body {
+		background-color: gray;
+	}
+
+</style>
+	<div class="container">
+		<h1 class="title">Toma<span class="red-part">Tic</span></h1>
+		<h3 class="author">Ioan Troana | it12754@my.bristol.ac.uk</h2>
+
+		<h2>About:</h2>
+		<p>Tomatick is a web app I worked on this summer in order to learn AngularJS. The app aims to combine Trello's approach to task management with the effectiveness of the Pomodoro Technique and increase the user's productivity. The app is composed of 2 sections, the timer section (on the left) and the panel section (on the right). Within the panel section the user can create groups depending on their project structure. An example grouping would be Todo, Doing and Done groups. Furthermore, the user can add tasks within these groups. Each task has a set of properties: name and number of pomodoros assigned to it. These can be edited at any time.</p>	
+
+		<p>The timer section contains the actual timer along with different options the user can tweak to suit the application to their needs. The timer is composed of a round donut chart which aims to represent the amount of time passed or how much times is left until the break.</p>
+
+		<h2>Technologies used:</h2>
+		<p>The technologies used for the client side in this application are: AngularJS, Bootstrap, Font Awesome and ChartJS. On the server side, the app is composed of: ExpressJS and MongoDB(Mongoose). In order to install the dependencies it is required to call "npm install" in the terminal in the root of the project. This assumes that NodeJS and NPM are installed as well. To start the server you need to call "mongod --dbpath ./data/db/" in your terminal, inside the root of the project. This turns on MongoDB. Then the server can be started by calling "node server.js". If there are any issues, please do not hesitate to contact me.</p>
+
+		<h2>Structure</h2>
+		<p>The client side content is stored within the public folder in the root directory. This, in turn, is split into audio, css, img, js, libs, svg and views folders. </p>
+
+		<p>The libs folder contains the external JavaScript libraries, while the other folders are self-explanatory.</p>
+
+		<h3>Code structure</h3>
+
+		<p>AngularJS enforces the MVC architecture on the web-app. Therefore, the code is organized in models, views and controllers. The views are stored in the views folder and each represents a page in the website: login, home etc. There are 4 controllers present: MainCtrl, TimerCtrl, ProjectCtrl and LoginCtrl. </p>
+
+		<p>The MainCtrl is the parent controller for the others and, for now, it just manages the background of the current page.</p>
+
+		<p>The ProjectCtrl provides functionality for the tasks panel. It handles the communication between the client side and the server side and makes sure the tasks are synchronized. The main tasks are:
+		<ul>
+			<li>Managing the size of the groups wrapper</li>
+			<li>Getting the group data from the server side</li>
+			<li>Adding new tasks to the client side and send them for validation in the server side</li>
+			<li>Deleting tasks, both on client and server side</li>
+			<li>The same with groups</li>
+			<li>Repositioning tasks in groups based on their order and makes sure the database is also updated</li>
+			<li>Updating tasks (name, number of pomodoros left, number of pomodoros completed, active/non-active task)</li>
+			<li>Moving tasks from group to group or within the same group</li>
+			<li>Showing/Hiding completed tasks</li>
+		</ul></p>
+
+		<p>The TimerCtrl manages the timer on the left side of the app, it handles the states in which the timer can be (Stopped, Paused, Running), it notifies the ProjectCtrl when a circle is over so that it updates the finished pomodoro property on the current task. The main tasks are:
+		<ul>
+			<li>Deciding whether the user clicks on the timer button or he holds it down for a second</li>
+			<li>Updating the chart on each tick</li>
+			<li>Managing the timer states, as mentioned above</li>
+			<li>Playing sounds when a cycle or a break finishes</li>
+			<li>Managing the units of time</li>
+		</ul></p>
+
+		<p>The LoginCtrl doesn't have any functionality yet, but it will manage the user authentication and account creation and it will be implemented for the server side submission.</p>
+
+		<p>In addition to controllers, code is also stored in AngularJS Directives. They are an easy way to add functionality to HTML tags, just like adding attributes or creating new tags altogether, which can then be added to the HTML files. A disadvantage with this approach is that validators see these directives as invalid tags. The main directive types created are:
+		<ul>
+			<li>Drag and Drop directives: adds drag and drop functionality to tasks</li>
+			<li>Group directives: group specific functionality</li>
+			<li>Task directives: task specific functionality</li>
+		</ul></p>
+
+		<p>Last but not least, the requests to the database for each model (Task and Group) are written in Services (TaskService and GroupService), which can be called from the controllers.</p>
+
+		<h2>Design:</h2>
+		<p>The app is designed to be as simple to use as possible. It uses pleasant, dimmed colors which do not strain the eye, even in high brightness. Shades of gray are used as the main background colors, together with a shade of red to highlight certain elements. This provides a nice contrast throughout the web page.</p>
+
+		<p>The logo, TomaTick, is a SVG file created by using the trial version of Adobe Illustrator (as InkScape did not properly work on my OS). The round circle within the logo is misplaced roughly 10 to 20 pixels in Chrome, but it is positioned correctly in other browsers. I could not fix this issue because it caused it to break on the other browsers, therefore I decided to leave it as it currently is. A solution to this problem would be to store the logo as a PNG, but for the purposes of this coursework I decided not to change it.</p>
+
+		<p>The timer itself, present on the right side of the page, is based on a donut chart. When started, the chard is updated on each tick, creating a smooth animation. In addition, the sliders below the timer change the values of the timer in real time, also using smooth animations.</p>
+
+		<p>The login page ("/login") contains the user login form. The form is not functional yet, but will be implemented in the next part of the coursework. The form contains customized inputs, a semi-transparent white background. The background image is controlled by the main controller which decides if it is active or not based on the URL path.</p>
+
+		<h2>Future improvements:</h2>
+		<p>The next features to be implemented are:
+		<ul>
+			<li>User login/sign-up functionality</li>
+			<li>User options panel (optional) </li>
+			<li>Slight improvements to some UI elements</li>
+			<li>A projects page so the user can have multiple projects (optional)</li>
+		</ul></p>
+	</div>
+</body>
+</html>

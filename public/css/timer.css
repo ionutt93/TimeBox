@@ -1,9 +1,5 @@
 body { 
 	padding-top: 70px;
-	/*background-color: #F8F8F8;*/
-	background-image: url("/img/background.jpg") !important;
-	background-repeat: no-repeat;
-	background-size: cover;
 }
 
 #timer-btn {
