@@ -1,3 +1,14 @@
+.navbar-shadowed {
+	-webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.15);
+-moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.15);
+box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.15);
+}
+
+#logout-button {
+	font-size: 20px;
+	color: #FD7373;
+}
+
 .body {
 	background-image: url("/img/background.jpg") !important;
 }
@@ -13,23 +24,20 @@
 }
 
 .login-box {
-	width: 400px;
+	width: 650px;
 	height: 400px;
 
 	margin: 50px auto;
 
-	border: solid #E0E0E0 1px;
-	border-bottom: solid darkgray 1px;
-	border-radius: 10px;
-
-	background-color: rgba(255, 255, 255, 0.4);
 	/*background-color: rgba(255, 255, 255, 0.4);*/
+	background-image: url("/img/login_box.png");
 }
 
 .login-box > h2 {
-	text-align: center;	
+	text-align: center;
 	color: #FD7373;
-	margin-bottom: 50px;
+	padding-top: 70px;
+	margin-bottom: 30px;
 }
 
 .form-group {
@@ -54,7 +62,7 @@
 }
 
 .login-btn {
-	margin-top: 50px;
+	margin-top: 30px;
 
 	width: 148px;
 	height: 40px;

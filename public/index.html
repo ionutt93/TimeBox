@@ -42,7 +42,7 @@
 <div class="container-fluid">
 
 	<!-- HEADER -->
-	<nav class="navbar navbar-default navbar-fixed-top">
+	<nav ng-class="{'navbar-shadowed': isLoginScreen}" class="navbar navbar-default navbar-fixed-top">
 		<div class="navbar-header">
 			<a class="navbar-center navbar-brand">
 				<object class="logo" type="image/svg+xml" data="svg/TomaTic_logo_final.svg">TomaTic</object>
@@ -53,7 +53,7 @@
 		<ul class="nav navbar-nav">
 			<!-- <li><a href="/nerds">Projects</a></li>
 			<li><a href="/geeks">Geeks</a></li> -->
-			<li> <a ng-click="logout()" href="#">Logout</a></li>
+			<li> <a id="logout-button" ng-click="logout()" ng-show="isLoggedIn" href="#">Logout</a></li>
 		</ul>
 	</nav>
 
