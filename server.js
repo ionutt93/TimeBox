@@ -5,6 +5,8 @@ var app            = express();
 var mongoose       = require('mongoose');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
+var expressJwt     = require('express-jwt');
+var jwt            = require('jsonwebtoken');
 
 // Configuration =============================
 // Config files
@@ -16,19 +18,19 @@ var User = require('./models/user');
 // Connect to database
 if ('development' == app.get('env'))
 	mongoose.connect(db.dev_url, function (err) {
-		if (err) 
+		if (err)
 			throw err;
 		console.log("Succesfuly connected to development database!");
 	});
 else if ('production' == app.get('env'))
 	mongoose.connect(db.prod_url, function (err) {
-		if (err) 
+		if (err)
 			throw err;
 		console.log("Succesfuly connected to production database!");
 	});
 else if ('test' == app.get('env'))
 	mongoose.connect(db.test_url, function (err) {
-		if (err) 
+		if (err)
 			throw err;
 		console.log("Succesfuly connected to test database!");
 	});
@@ -43,8 +45,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-f
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 
+app.use('/api', expressJwt({ secret: "secret" }));
+
 // routes ====================================
-require('./app/routes')(app); // configure our routes
+require('./app/routes')(app, jwt); // configure our routes
 
 // start app ===============================================
 app.listen(port);										// startup our app at http://localhost:8080

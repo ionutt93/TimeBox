@@ -1,7 +1,8 @@
 'use strict'
-module.exports = function (app) {
+module.exports = function (app, jwt) {
     var Group = require('../models/group');
     var Task = require('../models/task');
+    var User = require('../models/user');
     // Server routes ===========================
 
     // Gets all groups
@@ -20,7 +21,7 @@ module.exports = function (app) {
             name: req.body.name,
             order: req.body.order
         }, function (err, group) {
-            if (err) 
+            if (err)
                 console.log(err);
 
             res.json(group);
@@ -30,7 +31,7 @@ module.exports = function (app) {
     // Removes a group and all tasks belonging to it
     app.delete('/api/groups/:group_id', function (req, res) {
         Task.remove({ group: req.params.group_id }, function (err) {
-            if (err) 
+            if (err)
                 res.send(err);
         });
 
@@ -56,7 +57,7 @@ module.exports = function (app) {
     app.put('/api/tasks/:task_id', function (req, res) {
         Task.update(
             { _id: req.params.task_id },
-            { $set: req.body.updates}, 
+            { $set: req.body.updates},
             function (err, task) {
                 if (err) {
                     console.log(err);
@@ -70,7 +71,7 @@ module.exports = function (app) {
     // Updates task and the order of those affected by move
     app.put('/api/tasks/:task_id/order', function (req, res) {
         // Repositions tasks from first group
-        Task.find({ 
+        Task.find({
             group: req.body.updates.oldGroupId,
             order: { $gt: req.body.updates.oldOrder }
         }, function (err, tasks) {
@@ -107,8 +108,8 @@ module.exports = function (app) {
         }
 
         // Update the moved task
-        Task.update({ 
-            _id: req.params.task_id 
+        Task.update({
+            _id: req.params.task_id
         }, { $set: {
                 order: req.body.updates.newOrder,
                 group: req.body.updates.newGroupId
@@ -130,8 +131,8 @@ module.exports = function (app) {
             console.log('Task removed');
         });
 
-        Task.find({ 
-            group: tGroup, 
+        Task.find({
+            group: tGroup,
             order: { $gt: tOrder }
         }, function (err, tasks) {
             if (err)
@@ -181,10 +182,52 @@ module.exports = function (app) {
             order: req.body.order,
             group: req.params.group_id
         }, function (err, task) {
-            if (err) 
+            if (err)
                 res.send(err);
 
             res.json(task);
+        });
+    });
+
+    // create a user
+    app.post('/auth/users', function (req, res) {
+        User.create({
+            email: req.body.email,
+            password: req.body.password
+        }, function (err, user) {
+            if (err)
+                res.send(err);
+            else {
+                var profile = {
+                    user_id: user._id
+                };
+
+                var myToken = jwt.sign(user, "secret", { expiresInMinutes: 60 });
+                res.json({ token: myToken });
+            }
+        });
+    });
+
+    // authenticate user
+    app.post('/auth/users/login', function (req, res) {
+        // TODO validate input
+        User.find({ email: req.body.email }, function (err, user) {
+            if (err)
+                res.send(401, "Wrong user or password");
+            else {
+                User.comparePassword(user.password, req.body.password, function (isMatch) {
+                    if (isMatch) {
+                        var profile = {
+                            user_id: user._id
+                        };
+
+                        var myToken = jwt.sign(user, "secret", { expiresInMinutes: 60 });
+                        res.json({ token: myToken });
+                    } else {
+                        res.send(401, "Wrong user or password");
+                    }
+                });
+            }
         });
     });
 

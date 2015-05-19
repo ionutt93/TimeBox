@@ -21,15 +21,15 @@ UserSchema.pre('save', function (next) {
 		bcrypt.hash(user.password, salt, function (err, hash) {
 			if (err)
 				return next(err);
-			
+
 			user.password = hash;
 			next();
 		});
 	});
 });
 
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
-	bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+UserSchema.statics.comparePassword = function (candidatePassword, myPassword, cb) {
+	bcrypt.compare(candidatePassword, myPassword, function (err, isMatch) {
 		if (err)
 			return cb(err);
 		cb(null, isMatch);

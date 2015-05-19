@@ -1,5 +1,5 @@
-angular.module('sampleApp', 
+angular.module('sampleApp',
 	['ngRoute', 'appRoutes', 'MainCtrl', 'LoginCtrl',
-	 'ProjectCtrl', 'TaskService', 'TimerCtrl', 
+	 'ProjectCtrl', 'TaskService', 'TimerCtrl', 'UserService',
 	 'GroupService', 'ui.slider', 'myTaskDirective',
 	 'myGroupDirective', 'myDragAndDropDirective']);
