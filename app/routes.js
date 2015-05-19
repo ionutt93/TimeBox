@@ -1,5 +1,5 @@
 'use strict'
-module.exports = function (app, jwt) {
+module.exports = function (app, jwt, expressJwt) {
     var Group = require('../models/group');
     var Task = require('../models/task');
     var User = require('../models/user');
@@ -168,7 +168,7 @@ module.exports = function (app, jwt) {
     app.get('/api/groups/:group_id/tasks', function (req, res) {
         Task.find({ group: req.params.group_id }, function (err, tasks) {
             if (err)
-                res.send(err);
+                res.send(500, err);
 
             res.json(tasks);
         });
@@ -191,18 +191,22 @@ module.exports = function (app, jwt) {
 
     // create a user
     app.post('/auth/users', function (req, res) {
+        console.log(req.body);
         User.create({
             email: req.body.email,
             password: req.body.password
         }, function (err, user) {
-            if (err)
-                res.send(err);
+            if (err) {
+                console.log(err);;
+                res.status(401).send(err);
+            }
             else {
                 var profile = {
-                    user_id: user._id
+                    user: user[0]._id,
                 };
 
                 var myToken = jwt.sign(user, "secret", { expiresInMinutes: 60 });
+                console.log(myToken);
                 res.json({ token: myToken });
             }
         });
@@ -218,10 +222,10 @@ module.exports = function (app, jwt) {
                 User.comparePassword(user.password, req.body.password, function (isMatch) {
                     if (isMatch) {
                         var profile = {
-                            user_id: user._id
+                            user: user[0]._id,
                         };
 
-                        var myToken = jwt.sign(user, "secret", { expiresInMinutes: 60 });
+                        var myToken = jwt.sign(profile, "secret", { expiresInMinutes: 60 });
                         res.json({ token: myToken });
                     } else {
                         res.send(401, "Wrong user or password");

@@ -16,22 +16,21 @@ angular.module('LoginCtrl', []).controller("LoginController",
 	$scope.submit = function () {
 		if (!isSigningIn) {
 			User.login($scope.user)
-				.success(function (data) {
+				.success(function (data, status, headers, config) {
 					$window.sessionStorage.token = data.token;
-					$location.path('/');
+					console.log(data.token);
+					$window.location.href = '/';
 				})
-				.error(function (data) {
-					console.log("Failed to login");
+				.error(function (data, status, headers, config) {
 					console.log(data);
 				});
 		} else {
 			User.signup($scope.user)
-				.success(function (data) {
+				.success(function (data, status, headers, config) {
 					$window.sessionStorage.token = data.token;
-					$location.path('/');
+					$window.location.href = '/';
 				})
-				.error(function (data) {
-					console.log("Failed to signup");
+				.error(function (data, status, headers, config) {
 					console.log(data);
 				});
 		}

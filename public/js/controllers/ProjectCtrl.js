@@ -1,6 +1,6 @@
 'use strict'
-angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('ProjectController', 
-	['$scope', 'Group', 'Task', function ($scope, Group, Task) {
+angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('ProjectController',
+	['$scope', 'Group', 'Task', "$window", "jwtHelper", function ($scope, Group, Task, $window, jwtHelper) {
 
 	$scope.newTaskText = "task";
 	$scope.groupInputVisible = false;
@@ -11,13 +11,23 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		tIndex: undefined
 	};
 
+	console.log("TOKEN");
+	console.log($window.sessionStorage.token);
+
+	if (!$window.sessionStorage.token)
+		$window.location.href = '/login';
+
+	var decodedToken = jwtHelper.decodeToken($window.sessionStorage.token);
+	console.log(decodedToken);
+
+
 	$scope.$watch('groups.length', function (newValue) {
 		$scope.wrapperWidth = (newValue + 1) * 335;
 	});
 
 	$scope.$parent.$on('pomodoroFinished', function () {
 		console.log("Cycle finished");
-		$scope.addPomodoroToCompleted($scope.timedTask);		
+		$scope.addPomodoroToCompleted($scope.timedTask);
 	});
 
 	// Gets all groups from database
@@ -55,7 +65,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 				i++;
 				$scope.groups.push(group);
 				addTasksToGroups(groupData, i);
-				
+
 			})
 			.error(function (error, status, headers, config) {
 				console.log(status);
@@ -120,7 +130,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 
 		if ($scope.timedTask.gIndex !== undefined)
 			$scope.groups[$scope.timedTask.gIndex].groupTasks[$scope.timedTask.tIndex].isTimed = false;
-		
+
 		$scope.groups[gIndex].groupTasks[tIndex].isTimed = true;
 		$scope.timedTask.gIndex = gIndex;
 		$scope.timedTask.tIndex = tIndex;
@@ -163,7 +173,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		var task = $scope.groups[tInfo.gIndex].groupTasks[tInfo.tIndex];
 		var oldOrder = task.order;
 		var newOrder = tInfo.tOrder;
-		
+
 		var oldGroupId = $scope.groups[tInfo.gIndex].groupID;
 		var newGroupId = $scope.groups[gIndex].groupID;
 
@@ -175,7 +185,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 		repositionTasks(-1, task.order, tInfo.gIndex);
 		// Reposition tasks from second group
 		if (oldGroupId === newGroupId)
-			tInfo.tOrder -= 1;	
+			tInfo.tOrder -= 1;
 		repositionTasks(1, tInfo.tOrder, gIndex);
 
 		task.order = tInfo.tOrder;
@@ -232,12 +242,12 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 			}).success(function () {
 				$scope.groups[timedTask.gIndex].groupTasks[timedTask.tIndex].completedPomodoros += 1;
 				console.log("Task succesfully updated");
-				
+
 				if ($scope.groups[timedTask.gIndex].groupTasks[timedTask.tIndex].completedPomodoros == task.totalPomodoros)
 					$scope.markAsCompleteOrRevert(timedTask.gIndex, timedTask.tIndex);
 			}).error(function (error) {
 				console.log(error);
-			});		
+			});
 		}
 	}
 
@@ -259,7 +269,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 	$scope.substractPomodoroFromTotal = function (gIndex, tIndex) {
 		var task = $scope.groups[gIndex].groupTasks[tIndex];
 		if (task.totalPomodoros > task.completedPomodoros && task.totalPomodoros > 1) {
-			Task.update(task._id, { 
+			Task.update(task._id, {
 				totalPomodoros: $scope.groups[gIndex].groupTasks[tIndex].totalPomodoros - 1
 			}).success(function () {
 				$scope.groups[gIndex].groupTasks[tIndex].totalPomodoros -= 1;
