@@ -31,7 +31,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 	});
 
 	// Gets all groups from database
-	Group.get()
+	Group.get(decodedToken.user)
 		.success(function (data, status, headers, config) {
 			addTasksToGroups(data, 0);
 		})
@@ -282,7 +282,7 @@ angular.module('ProjectCtrl', ['GroupService', 'TaskService']).controller('Proje
 
 	// Adds new group to database
 	$scope.insertGroup = function (groupName) {
-		Group.create({
+		Group.create(decodedToken.user, {
 			name: groupName,
 			order: $scope.groups.length
 		}).success(function (group, status, headers, config) {

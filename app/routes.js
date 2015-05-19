@@ -6,8 +6,8 @@ module.exports = function (app, jwt, expressJwt) {
     // Server routes ===========================
 
     // Gets all groups
-    app.get('/api/groups', function (req, res) {
-        Group.find(function (err, groups) {
+    app.get('/api/users/:user_id/groups', function (req, res) {
+        Group.find({ user: req.params.user_id }, function (err, groups) {
             if (err)
                 res.send(err);
 
@@ -16,10 +16,11 @@ module.exports = function (app, jwt, expressJwt) {
     });
 
     // Creates a group
-    app.post('/api/groups', function (req, res) {
+    app.post('/api/users/:user_id/groups', function (req, res) {
         Group.create({
             name: req.body.name,
-            order: req.body.order
+            order: req.body.order,
+            user: req.params.user_id
         }, function (err, group) {
             if (err)
                 console.log(err);
@@ -191,7 +192,6 @@ module.exports = function (app, jwt, expressJwt) {
 
     // create a user
     app.post('/auth/users', function (req, res) {
-        console.log(req.body);
         User.create({
             email: req.body.email,
             password: req.body.password
@@ -201,11 +201,12 @@ module.exports = function (app, jwt, expressJwt) {
                 res.status(401).send(err);
             }
             else {
+                console.log(user);
                 var profile = {
-                    user: user[0]._id,
+                    user: user._id,
                 };
 
-                var myToken = jwt.sign(user, "secret", { expiresInMinutes: 60 });
+                var myToken = jwt.sign(profile, "secret", { expiresInMinutes: 60 });
                 console.log(myToken);
                 res.json({ token: myToken });
             }

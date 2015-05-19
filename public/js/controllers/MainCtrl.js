@@ -1,5 +1,5 @@
 'use strict'
-angular.module("MainCtrl", []).controller("MainController", function ($scope) {
+angular.module("MainCtrl", []).controller("MainController", ['$scope', "$window", function ($scope, $window) {
     $scope.tagline = 'To the moon and back!';
 
     if (window.location.pathname.indexOf("login") != -1) {
@@ -10,5 +10,9 @@ angular.module("MainCtrl", []).controller("MainController", function ($scope) {
     } else {
     	$scope.backgroundImage = {};
     }
-});
 
+    $scope.logout = function () {
+        delete $window.sessionStorage.token;
+        $window.location.href = '/login';
+    }
+}]);
