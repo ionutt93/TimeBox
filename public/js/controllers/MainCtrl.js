@@ -6,8 +6,10 @@ angular.module("MainCtrl", []).controller("MainController", ['$scope', "$window"
 
     if (window.location.pathname.indexOf("login") != -1) {
     	$scope.backgroundImage = {
-    		background: 'url("/img/background.jpg")',
-    		backgroundSize: 'cover'
+    		background: 'url("/img/background copy.png")',
+    		backgroundSize: 'cover',
+            width: '100%',
+            height: '100%'
     	};
     } else {
     	$scope.backgroundImage = {};
